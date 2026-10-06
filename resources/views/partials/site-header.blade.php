@@ -17,24 +17,16 @@
     .brand {
         display: inline-flex;
         align-items: center;
-        gap: 11px;
         flex-shrink: 0;
-        color: #ffffff;
-        font-size: 14px;
-        font-weight: 700;
-        letter-spacing: .08em;
-        text-transform: uppercase;
+        text-decoration: none;
     }
 
-    .brand-mark {
-        display: grid;
-        width: 36px;
-        height: 36px;
-        place-items: center;
-        border-radius: 11px;
-        background: #939497;
-        color: white;
-        font-size: 17px;
+    .brand-logo {
+        display: block;
+        width: auto;
+        max-height: 68px;
+        object-fit: contain;
+        filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.18));
     }
 
     .top-nav {
@@ -84,8 +76,9 @@
 
 <header class="site-header">
     <div class="topbar">
-        <a class="brand" href="{{ route('inicio') }}" style="text-decoration: none;">
-            <span>Control de inventario</span>
+        <a class="brand" href="{{ route('inicio') }}" aria-label="Control de inventario" style="text-decoration: none;">
+            <img class="brand-logo" src="{{ asset('images/logo-coronango.png') }}" alt="Logo de Control de inventario">
+            <span style="font-size: 20px; font-weight: bold; color: #f9fafa; margin-left: 8px;">Control de Inventario</span>
         </a>
 
         <nav class="top-nav" aria-label="Vistas del inventario">
