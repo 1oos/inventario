@@ -212,11 +212,11 @@
                     <tr>
                         <th scope="col">Foto</th>
                         <th scope="col">ID artículo</th>
-                        <th scope="col">Código de barras</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Marca</th>
                         <th scope="col">Modelo</th>
+                        <th scope="col">Código de barras</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Acciones</th>
                     </tr>
