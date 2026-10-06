@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Alta de resguardos</title>
+</head>
+<body>
+    @include('partials.site-header')
+
+    <h1>Alta de resguardos</h1>
+
+    @if (session('mensaje'))
+        <p>{{ session('mensaje') }}</p>
+    @endif
+
+    @if ($errors->any())
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
+
+    @if ($articulos->isEmpty())
+        <p>Primero debes registrar un artículo para poder asignarlo a un resguardo.</p>
+        <p><a href="{{ route('articulos.create') }}">Registrar artículo</a></p>
+    @else
+        <form action="{{ route('resguardos.store') }}" method="POST" autocomplete="off">
+            @csrf
+            <div>
+                <label for="id_empleado">Id empleado:</label>
+                <input id="id_empleado" type="number" name="id_empleado" min="1" required><br><br>
+            </div>
+            <div>
+                <label for="id_articulo">Artículo:</label>
+                <select id="id_articulo" name="id_articulo" required>
+                    <option value="">Selecciona un artículo</option>
+                    @foreach ($articulos as $articulo)
+                        <option value="{{ $articulo->id_articulo }}">
+                            {{ $articulo->nombre_articulo }} ({{ $articulo->id_articulo }})
+                        </option>
+                    @endforeach
+                </select><br><br>
+            </div>
+            <div>
+                <label for="fecha_registro">Fecha de registro:</label>
+                <input id="fecha_registro" type="date" name="fecha_registro" required><br><br>
+            </div>
+            <div>
+                <label for="observaciones">Observaciones:</label>
+                <input id="observaciones" type="text" name="observaciones"><br><br>
+            </div>
+            <button type="submit">Guardar resguardo</button>
+        </form>
+        
+    @endif
+
+</body>
+</html>
