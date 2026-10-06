@@ -67,6 +67,10 @@
             <input id="modelo" type="text" name="modelo" value="{{ old('modelo', $articulo->modelo ?? '') }}" required><br><br>
         </div>
         <div>
+            <label for="codigo_barras">Codigo de barras:</label>
+            <input id="codigo_barras" type="text" name="codigo_barras" value="{{ old('codigo_barras', $articulo->codigo_barras ?? '') }}" required><br><br>
+        </div>
+        <div>
             <label for="imagen">Imagen:</label>
             <input id="imagen" type="file" name="imagen" accept="image/*"><br><br>
             @if (isset($articulo) && $articulo->imagen)

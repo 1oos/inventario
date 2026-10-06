@@ -36,6 +36,7 @@ class ArticuloController extends Controller
             'estado' => ['required', 'in:En buen estado,En mal estado'],
             'marca' => ['required', 'string', 'max:255'],
             'modelo' => ['required', 'string', 'max:255'],
+            'codigo_barras' => ['required', 'string', 'max:255'],
             'imagen' => ['nullable', 'image', 'max:2048'],
             'fecha_alta' => ['required', 'date'],
             'serie' => ['required', 'string', 'max:255'],

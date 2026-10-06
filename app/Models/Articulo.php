@@ -20,6 +20,7 @@ class Articulo extends Model
         'estado',
         'marca',
         'modelo',
+        'codigo_barras',
         'imagen',
         'fecha_alta',
         'serie',
