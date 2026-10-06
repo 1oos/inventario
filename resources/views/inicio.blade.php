@@ -158,7 +158,7 @@
         <header class="intro">
             <p class="eyebrow">Panel principal</p>
             <h1>Todo tu inventario, en un solo lugar.</h1>
-            <p>Elige una opción para administrar categorías, registrar artículos, asignar resguardos o generar un reporte.</p>
+            <p class="text-center">Elige una opción para administrar categorías, registrar artículos, asignar resguardos o generar un reporte.</p>
         </header>
 
         <section aria-labelledby="views-heading">
