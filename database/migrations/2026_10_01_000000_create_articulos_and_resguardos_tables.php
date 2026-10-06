@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('estado', 50);
             $table->string('marca');
             $table->string('modelo');
+            $table->string('codigo_barras')->unique();
             $table->string('imagen')->nullable();
             $table->date('fecha_alta');
             $table->string('serie');

@@ -176,6 +176,7 @@
                         <th scope="col">Categoría</th>
                         <th scope="col">Subcategoría</th>
                         <th scope="col">Artículo</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
