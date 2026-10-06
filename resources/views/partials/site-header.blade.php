@@ -8,21 +8,17 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 100%;
-        max-width: none;
-        margin: 0;
+        width: min(1080px, calc(100% - 40px));
+        margin: 0 auto;
         gap: 24px;
-        padding: 14px 12px;
-        box-sizing: border-box;
+        padding: 14px 0;
     }
 
     .brand {
         display: inline-flex;
         align-items: center;
         flex-shrink: 0;
-        margin-left: 0;
         text-decoration: none;
-        cursor: default;
     }
 
     .brand-logo {
@@ -80,10 +76,10 @@
 
 <header class="site-header">
     <div class="topbar">
-        <div class="brand" aria-label="Control de inventario" role="img">
+        <a class="brand" href="{{ route('inicio') }}" aria-label="Control de inventario" style="text-decoration: none;">
             <img class="brand-logo" src="{{ asset('images/coronango.png') }}" alt="Logo de Control de inventario">
-            <span style="margin-left: 8px; font-size: 18px; font-weight: 700; color: #f9fafa;">Control de inventario</span>
-        </div>
+            <span style="font-size: 20px; font-weight: bold; color: #f9fafa; margin-left: 8px;">Control de Inventario</span>
+        </a>
 
         <nav class="top-nav" aria-label="Vistas del inventario">
             <a class="nav-button" href="{{ route('inicio') }}">Inicio</a>
