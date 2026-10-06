@@ -74,6 +74,36 @@
             color: #17643a;
         }
 
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-button {
+            display: inline-flex;
+            min-height: 36px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 12px;
+            border: 0;
+            border-radius: 7px;
+            color: #ffffff;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .action-button--edit {
+            background: #2563eb;
+        }
+
+        .action-button--delete {
+            background: #b42318;
+        }
+
         .table-wrapper {
             overflow-x: auto;
             border: 1px solid #dfe7ee;
@@ -148,6 +178,7 @@
                         <th scope="col">Artículo</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Observaciones</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -159,10 +190,20 @@
                             <td>{{ $resguardo->articulo->nombre_articulo }}</td>
                             <td>{{ $resguardo->fecha_registro }}</td>
                             <td>{{ $resguardo->observaciones ?: '—' }}</td>
+                            <td>
+                                <div class="actions">
+                                    <a class="action-button action-button--edit" href="{{ route('resguardos.edit', $resguardo) }}">Editar</a>
+                                    <form action="{{ route('resguardos.destroy', $resguardo) }}" method="POST" onsubmit="return confirm('¿Deseas eliminar este resguardo?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="action-button action-button--delete" type="submit">Eliminar</button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td class="empty-state" colspan="6">No hay resguardos registrados.</td>
+                            <td class="empty-state" colspan="7">No hay resguardos registrados.</td>
                         </tr>
                     @endforelse
                 </tbody>

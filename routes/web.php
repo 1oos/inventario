@@ -11,6 +11,9 @@ Route::view('/', 'inicio')->name('inicio');
 Route::get('/categorias', [CategoriasController::class, 'index'])->name('categorias.index');
 Route::get('/categorias/crear', [CategoriasController::class, 'create'])->name('categorias.create');
 Route::post('/categorias', [CategoriasController::class, 'store'])->name('categorias.store');
+Route::get('/categorias/{categoria}/editar', [CategoriasController::class, 'edit'])->name('categorias.edit');
+Route::put('/categorias/{categoria}', [CategoriasController::class, 'update'])->name('categorias.update');
+Route::delete('/categorias/{categoria}', [CategoriasController::class, 'destroy'])->name('categorias.destroy');
 
 Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index');
 Route::get('/articulos/crear', [ArticuloController::class, 'create'])->name('articulos.create');
@@ -22,6 +25,9 @@ Route::delete('/articulos/{articulo}', [ArticuloController::class, 'destroy'])->
 Route::get('/resguardos', [ResguardosController::class, 'index'])->name('resguardos.index');
 Route::get('/resguardos/nuevo', [ResguardosController::class, 'create'])->name('resguardos.create');
 Route::post('/resguardos/guardar', [ResguardosController::class, 'store'])->name('resguardos.store');
+Route::get('/resguardos/{resguardo}/editar', [ResguardosController::class, 'edit'])->name('resguardos.edit');
+Route::put('/resguardos/{resguardo}', [ResguardosController::class, 'update'])->name('resguardos.update');
+Route::delete('/resguardos/{resguardo}', [ResguardosController::class, 'destroy'])->name('resguardos.destroy');
 
 Route::get('/reporteinventario', [ReporteInventarioController::class, 'create'])->name('reporteinventario.create');
 Route::post('/reporteinventario', [ReporteInventarioController::class, 'store'])->name('reporteinventario.store');

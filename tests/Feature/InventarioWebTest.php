@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Articulo;
+use App\Models\Categoria;
+use App\Models\Resguardos;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -33,6 +35,41 @@ test('category form saves categories', function () {
         ->assertSee('Electronica')
         ->assertSee('Computadoras')
         ->assertSee('Laptop');
+});
+
+test('categories can be edited and deleted from the list', function () {
+    $categoria = Categoria::create([
+        'nombre_categoria' => 'Electronica',
+        'nombre_subcategoria' => 'Computadoras',
+        'articulo' => 'Laptop',
+    ]);
+
+    $this->get(route('categorias.index'))
+        ->assertOk()
+        ->assertSee(route('categorias.edit', $categoria))
+        ->assertSee(route('categorias.destroy', $categoria));
+
+    $this->get(route('categorias.edit', $categoria))
+        ->assertOk()
+        ->assertSee('Editar categoría')
+        ->assertSee('value="Laptop"', false);
+
+    $this->put(route('categorias.update', $categoria), [
+        'nombre_categoria' => 'Mobiliario',
+        'nombre_subcategoria' => 'Sillas',
+        'articulo' => 'Silla de oficina',
+    ])->assertRedirect(route('categorias.index'));
+
+    $this->assertDatabaseHas('categorias', [
+        'id' => $categoria->id,
+        'nombre_categoria' => 'Mobiliario',
+        'articulo' => 'Silla de oficina',
+    ]);
+
+    $this->delete(route('categorias.destroy', $categoria))
+        ->assertRedirect(route('categorias.index'))
+        ->assertSessionHas('mensaje', 'Categoría eliminada.');
+    $this->assertDatabaseMissing('categorias', ['id' => $categoria->id]);
 });
 
 test('web forms save articles and related safeguards', function () {
@@ -165,6 +202,57 @@ test('articles can be edited and deleted from the list', function () {
         ->assertRedirect(route('articulos.index'))
         ->assertSessionHas('mensaje', 'Artículo eliminado.');
     $this->assertDatabaseMissing('articulos', ['id_articulo' => 456]);
+});
+
+test('resguardos can be edited and deleted from the list', function () {
+    $articulo = Articulo::create([
+        'id_articulo' => 789,
+        'nombre_articulo' => 'Proyector',
+        'color' => 'Blanco',
+        'estado' => 'En buen estado',
+        'marca' => 'Marca',
+        'modelo' => 'Modelo P',
+        'fecha_alta' => '2026-10-01',
+        'serie' => 'SERIE-789',
+        'categoria' => 'Electronica',
+        'subcategoria' => 'Computadoras',
+        'ubicacion' => 'Almacén',
+    ]);
+    $resguardo = Resguardos::create([
+        'id_empleado' => 12,
+        'id_articulo' => $articulo->id_articulo,
+        'fecha_registro' => '2026-10-02',
+        'observaciones' => 'Asignación inicial',
+    ]);
+
+    $this->get(route('resguardos.index'))
+        ->assertOk()
+        ->assertSee(route('resguardos.edit', $resguardo))
+        ->assertSee(route('resguardos.destroy', $resguardo));
+
+    $this->get(route('resguardos.edit', $resguardo))
+        ->assertOk()
+        ->assertSee('Editar resguardo')
+        ->assertSee('value="12"', false);
+
+    $this->put(route('resguardos.update', $resguardo), [
+        'id_empleado' => 13,
+        'id_articulo' => $articulo->id_articulo,
+        'fecha_registro' => '2026-10-03',
+        'observaciones' => 'Asignación actualizada',
+    ])->assertRedirect(route('resguardos.index'));
+
+    $this->assertDatabaseHas('resguardos', [
+        'id' => $resguardo->id,
+        'id_empleado' => 13,
+        'observaciones' => 'Asignación actualizada',
+    ]);
+
+    $this->delete(route('resguardos.destroy', $resguardo))
+        ->assertRedirect(route('resguardos.index'))
+        ->assertSessionHas('mensaje', 'Resguardo eliminado correctamente.');
+    $this->assertDatabaseMissing('resguardos', ['id' => $resguardo->id]);
+    $this->assertDatabaseHas('articulos', ['id_articulo' => $articulo->id_articulo]);
 });
 
 test('resguardos require an existing article', function () {

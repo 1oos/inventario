@@ -74,6 +74,36 @@
             color: #17643a;
         }
 
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-button {
+            display: inline-flex;
+            min-height: 36px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 12px;
+            border: 0;
+            border-radius: 7px;
+            color: #ffffff;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .action-button--edit {
+            background: #2563eb;
+        }
+
+        .action-button--delete {
+            background: #b42318;
+        }
+
         .table-wrapper {
             overflow-x: auto;
             border: 1px solid #dfe7ee;
@@ -146,6 +176,7 @@
                         <th scope="col">Categoría</th>
                         <th scope="col">Subcategoría</th>
                         <th scope="col">Artículo</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -155,10 +186,20 @@
                             <td>{{ $categoria->nombre_categoria }}</td>
                             <td>{{ $categoria->nombre_subcategoria }}</td>
                             <td>{{ $categoria->articulo }}</td>
+                            <td>
+                                <div class="actions">
+                                    <a class="action-button action-button--edit" href="{{ route('categorias.edit', $categoria) }}">Editar</a>
+                                    <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" onsubmit="return confirm('¿Deseas eliminar esta categoría?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="action-button action-button--delete" type="submit">Eliminar</button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td class="empty-state" colspan="4">No hay categorías registradas.</td>
+                            <td class="empty-state" colspan="5">No hay categorías registradas.</td>
                         </tr>
                     @endforelse
                 </tbody>
