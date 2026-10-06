@@ -74,6 +74,12 @@
             color: #17643a;
         }
 
+        .notice--error {
+            border-color: #f2b8b5;
+            background: #fff0ed;
+            color: #a1301c;
+        }
+
         .table-wrapper {
             overflow-x: auto;
             border: 1px solid #dfe7ee;
@@ -140,6 +146,36 @@
             text-align: center;
         }
 
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-button {
+            display: inline-flex;
+            min-height: 36px;
+            align-items: center;
+            justify-content: center;
+            padding: 0 12px;
+            border: 0;
+            border-radius: 7px;
+            color: #ffffff;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .action-button--edit {
+            background: #2563eb;
+        }
+
+        .action-button--delete {
+            background: #b42318;
+        }
+
         @media (max-width: 560px) {
             main {
                 width: min(100% - 28px, 480px);
@@ -166,6 +202,10 @@
             <p class="notice">{{ session('mensaje') }}</p>
         @endif
 
+        @if (session('error'))
+            <p class="notice notice--error">{{ session('error') }}</p>
+        @endif
+
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -177,6 +217,7 @@
                         <th scope="col">Marca</th>
                         <th scope="col">Modelo</th>
                         <th scope="col">Fecha</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -203,10 +244,20 @@
                             <td>{{ $articulo->marca }}</td>
                             <td>{{ $articulo->modelo }}</td>
                             <td>{{ $articulo->fecha_alta }}</td>
+                            <td>
+                                <div class="actions">
+                                    <a class="action-button action-button--edit" href="{{ route('articulos.edit', $articulo) }}">Editar</a>
+                                    <form action="{{ route('articulos.destroy', $articulo) }}" method="POST" onsubmit="return confirm('¿Deseas eliminar este artículo?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="action-button action-button--delete" type="submit">Eliminar</button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td class="empty-state" colspan="7">No hay artículos registrados.</td>
+                            <td class="empty-state" colspan="8">No hay artículos registrados.</td>
                         </tr>
                     @endforelse
                 </tbody>

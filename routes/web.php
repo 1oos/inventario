@@ -15,6 +15,9 @@ Route::post('/categorias', [CategoriasController::class, 'store'])->name('catego
 Route::get('/articulos', [ArticuloController::class, 'index'])->name('articulos.index');
 Route::get('/articulos/crear', [ArticuloController::class, 'create'])->name('articulos.create');
 Route::post('/articulos/guardar', [ArticuloController::class, 'store'])->name('articulos.store');
+Route::get('/articulos/{articulo}/editar', [ArticuloController::class, 'edit'])->name('articulos.edit');
+Route::put('/articulos/{articulo}', [ArticuloController::class, 'update'])->name('articulos.update');
+Route::delete('/articulos/{articulo}', [ArticuloController::class, 'destroy'])->name('articulos.destroy');
 
 Route::get('/resguardos', [ResguardosController::class, 'index'])->name('resguardos.index');
 Route::get('/resguardos/nuevo', [ResguardosController::class, 'create'])->name('resguardos.create');
