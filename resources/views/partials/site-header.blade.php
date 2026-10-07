@@ -77,7 +77,7 @@
 <header class="site-header">
     <div class="topbar">
         <a class="brand" href="{{ route('inicio') }}" aria-label="Control de inventario" style="text-decoration: none;">
-            <img class="brand-logo" src="{{ asset('images/coronango.png') }}" alt="Logo de Control de inventario">
+            <img class="brand-logo" src="{{ asset('images/logo-coronango.png') }}" alt="Logo de Control de inventario">
             <span style="font-size: 20px; font-weight: bold; color: #f9fafa; margin-left: 8px;">Control de Inventario</span>
         </a>
 
@@ -87,7 +87,7 @@
             <a class="nav-button" href="{{ route('categorias.index') }}">Categorías</a>
             <a class="nav-button" href="{{ route('resguardos.index') }}">Resguardos</a>
             <a class="nav-button" href="{{ route('reporteinventario.create') }}">Reporte</a>
-            
+
         </nav>
     </div>
 </header>
