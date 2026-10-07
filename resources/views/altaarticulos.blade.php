@@ -11,7 +11,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #eef4ff 0%, #f8f9fb 100%);
+            background: linear-gradient(135deg, #fafcff 0%, #fffefe 100%);
             color: #1f2937;
         }
 
@@ -25,7 +25,7 @@
 
         .form-card {
             width: min(100%, 820px);
-            background: #ffffff;
+            background: #b3b1b14f;
             border-radius: 18px;
             box-shadow: 0 20px 40px rgba(31, 41, 55, 0.12);
             padding: 30px 30px 20px;
@@ -34,8 +34,7 @@
 
         h1 {
             text-align: center;
-            margin: 0 0 10px;
-            color: #700909;
+            margin: 0 0 18px;
             font-size: 2rem;
         }
 
@@ -80,7 +79,7 @@
         }
 
         label {
-            font-weight: 600;
+            font-weight: bold;
             color: #374151;
         }
 
@@ -95,11 +94,10 @@
         input[type="date"],
         select {
             width: 100%;
-            padding: 11px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            background: #f9fafb;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background: #fff;
         }
 
         input:focus,
@@ -107,7 +105,6 @@
             outline: none;
             border-color: #60a5fa;
             box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
-            background: #fff;
         }
 
         .radio-group {
@@ -115,11 +112,11 @@
             flex-wrap: wrap;
             gap: 14px;
             align-items: center;
-            background: #f9fafb;
+            background: #fff;
             border: 1px solid #d1d5db;
-            border-radius: 10px;
+            border-radius: 8px;
             padding: 10px 12px;
-            min-height: 46px;
+            min-height: 42px;
         }
 
         .radio-option {
@@ -156,20 +153,17 @@
         }
 
         button {
+            padding: 10px 20px;
+            border-radius: 4px;
             border: none;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            background-color: #2563eb;
             color: white;
-            padding: 12px 32px;
-            border-radius: 12px;
-            font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-weight: 700;
         }
 
         button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 14px 24px rgba(37, 99, 235, 0.25);
+            background-color: #1d4ed8;
         }
 
         @media (max-width: 640px) {

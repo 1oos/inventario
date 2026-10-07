@@ -213,10 +213,10 @@
                         <th scope="col">Foto</th>
                         <th scope="col">ID artículo</th>
                         <th scope="col">Nombre</th>
+                        <th scope="col">Codigo de barras</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Marca</th>
                         <th scope="col">Modelo</th>
-                        <th scope="col">Código de barras</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Acciones</th>
                     </tr>
@@ -236,8 +236,8 @@
                                 @endif
                             </td>
                             <td>{{ $articulo->id_articulo }}</td>
-                            <td>{{ $articulo->codigo_barras }}</td>
                             <td>{{ $articulo->nombre_articulo }}</td>
+                            <td>{{ $articulo->codigo_barras }}</td>
                             <td>
                                 <span class="status {{ $articulo->estado === 'En mal estado' ? 'status--damaged' : '' }}">
                                     {{ $articulo->estado }}
