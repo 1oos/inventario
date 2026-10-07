@@ -27,6 +27,7 @@
         max-height: 68px;
         object-fit: contain;
         filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.18));
+        transform: translateX(calc(-1 * max(20px, calc(50vw - 540px))));
     }
 
     .top-nav {
@@ -70,6 +71,10 @@
 
         .top-nav {
             justify-content: flex-start;
+        }
+
+        .brand-logo {
+            transform: translateX(calc(-1 * max(16px, calc(50vw - 240px))));
         }
     }
 </style>
