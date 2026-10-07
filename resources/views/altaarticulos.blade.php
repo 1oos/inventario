@@ -156,7 +156,7 @@
             padding: 10px 20px;
             border-radius: 4px;
             border: none;
-            background-color: #2563eb;
+            background-color: #7e0b0b;
             color: white;
             cursor: pointer;
             font-weight: 700;

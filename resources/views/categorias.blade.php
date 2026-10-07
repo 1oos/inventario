@@ -107,7 +107,7 @@
                 padding: 10px 20px;
                 border-radius: 4px;
                 border: none;
-                background-color: #2563eb;
+                background-color: #750606;
                 color: white;
                 cursor: pointer;
                 font-weight: 700;

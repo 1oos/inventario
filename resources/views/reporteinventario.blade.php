@@ -4,6 +4,11 @@
     <meta charset="utf-8">
     <title>Reporte de inventario</title>
     <style>
+        * {
+            box-sizing: border-box;
+
+        }
+        
         body {
             font-family: Arial, sans-serif;
             background: #f4f6f8;
