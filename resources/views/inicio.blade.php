@@ -156,7 +156,7 @@
 
     <main class="page">
         <header class="intro">
-            
+
             <h1>Todo tu inventario, en un solo lugar.</h1>
             <p class="text-center">Elige una opción para administrar categorías, registrar artículos, asignar resguardos o generar un reporte.</p>
         </header>
@@ -167,6 +167,23 @@
                 <span>Accesos directos a los módulos</span>
             </div>
 
+            <div id="carousel" class="carousel slide" > 
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                </div>
+            <div id="carousel" class="carousel-inner">
+                <div>
+                    <img src="categorias.png" class="d-block w-100" alt="Imagen de categorías">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Categorías</h5>
+                        <p>Organiza las categorías, subcategorías y artículos del inventario.</p>
+                    </div>
+                </div>
+            </div>
+            </div>
             <div class="views">
                 <article class="view-card">
                     <span class="view-icon" aria-hidden="true">01</span>
