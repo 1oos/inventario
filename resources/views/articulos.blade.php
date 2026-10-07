@@ -205,7 +205,10 @@
         @if (session('error'))
             <p class="notice notice--error">{{ session('error') }}</p>
         @endif
-
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Buscar articulo" ariea-label="search"/>
+                <button class="btn btn-outline-success" type="submit">Buscar</button><br><br>
+            </form>
         <div class="table-wrapper">
             <table>
                 <thead>

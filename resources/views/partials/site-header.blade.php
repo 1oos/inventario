@@ -1,7 +1,7 @@
 <style>
     .site-header {
         width: 100%;
-        background: rgb(139, 4, 4);
+        background: linear-gradient(135deg, #640404 0%, #c03636 100%);
     }
 
     .topbar {
