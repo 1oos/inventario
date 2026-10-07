@@ -182,7 +182,36 @@
                         <p>Organiza las categorías, subcategorías y artículos del inventario.</p>
                     </div>
                 </div>
+                <div id="carousel" class="carousel-item">
+                    <img src="articulos.png" class="d-block w-100" alt="Imagen de registrar artículo">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Registrar artículo</h5>
+                        <p>Da de alta un artículo con sus datos, estado y ubicación.</p>
+                    </div>
+                </div>
+                <div id="carousel" class="carousel-item">
+                    <img src="resguardos.png" class="d-block w-100" alt="Imagen de resguardos">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Resguardos</h5>
+                        <p>Asigna artículos a empleados y registra cada resguardo.</p>
+                    </div>
+                </div>
+                <div id="carousel" class="carousel-item">
+                    <img src="reporte.png" class="d-block w-100" alt="Imagen de reporte de inventario">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Reporte de inventario</h5>
+                        <p>Captura los datos necesarios para generar un reporte de inventario.</p>
+                    </div>
+                </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
             </div>
             <div class="views">
                 <article class="view-card">
