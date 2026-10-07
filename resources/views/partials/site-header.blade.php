@@ -1,7 +1,7 @@
 <style>
     .site-header {
         width: 100%;
-        background: linear-gradient(135deg, #640404 0%, #c03636 100%);
+        background: linear-gradient(135deg, #500202 0%, #c03636 100%);
     }
 
     .topbar {
