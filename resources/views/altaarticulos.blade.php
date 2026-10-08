@@ -180,6 +180,7 @@
 <body>
     @include('partials.site-header')
 
+    <a href="{{ route('articulos.index') }}" style="display: inline-block; margin: 10px; padding: 10px 20px; background-color: #6e0505; color: white; border: none; border-radius: 4px; cursor: pointer; text-decoration: none;">Regresar a la lista de artículos</a>
     <div class="page-wrap">
         <div class="form-card">
             <h1>{{ isset($articulo) ? 'Editar artículo' : 'Registrar artículo' }}</h1>
@@ -275,9 +276,11 @@
                     <label for="categoria">Categoría:</label>
                     <select id="categoria" name="categoria" required>
                         <option value="">Selecciona una opción</option>
-                        <option value="Electronica" @selected(old('categoria', $articulo->categoria ?? '') === 'Electronica')>Electrónica</option>
-                        <option value="Mobiliario" @selected(old('categoria', $articulo->categoria ?? '') === 'Mobiliario')>Mobiliario</option>
-                        <option value="Papeleria" @selected(old('categoria', $articulo->categoria ?? '') === 'Papeleria')>Papelería</option>
+                        @foreach ($categorias->unique('nombre_categoria') as $categoria)
+                            <option value="{{ $categoria->nombre_categoria }}" @selected(old('categoria', $articulo->categoria ?? '') === $categoria->nombre_categoria)>
+                                {{ $categoria->nombre_categoria }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -285,9 +288,18 @@
                     <label for="subcategoria">Subcategoría:</label>
                     <select id="subcategoria" name="subcategoria" required disabled>
                         <option value="">Selecciona una opción</option>
-                        <option value="Computadoras" @selected(old('subcategoria', $articulo->subcategoria ?? '') === 'Computadoras')>Computadoras</option>
-                        <option value="Ventiladores" @selected(old('subcategoria', $articulo->subcategoria ?? '') === 'Ventiladores')>Ventiladores</option>
-                        <option value="Impresoras" @selected(old('subcategoria', $articulo->subcategoria ?? '') === 'Impresoras')>Impresoras</option>
+                        @foreach ($categorias as $categoria)
+                            <option
+                                value="{{ $categoria->nombre_subcategoria }}"
+                                data-categoria="{{ $categoria->nombre_categoria }}"
+                                @selected(
+                                    old('categoria', $articulo->categoria ?? '') === $categoria->nombre_categoria
+                                    && old('subcategoria', $articulo->subcategoria ?? '') === $categoria->nombre_subcategoria
+                                )
+                            >
+                                {{ $categoria->nombre_subcategoria }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -329,11 +341,20 @@
         const subcategoria = document.getElementById('subcategoria');
 
         const actualizarSubcategoria = () => {
-            const categoriaSeleccionada = categoria.value !== '';
-            subcategoriaContainer.hidden = !categoriaSeleccionada;
-            subcategoria.disabled = !categoriaSeleccionada;
+            const categoriaSeleccionada = categoria.value;
+            subcategoriaContainer.hidden = categoriaSeleccionada === '';
+            subcategoria.disabled = categoriaSeleccionada === '';
 
-            if (!categoriaSeleccionada) {
+            Array.from(subcategoria.options).forEach((option, index) => {
+                const disponible = index === 0 || option.dataset.categoria === categoriaSeleccionada;
+                option.hidden = !disponible;
+                option.disabled = !disponible;
+            });
+
+            if (
+                categoriaSeleccionada === ''
+                || subcategoria.selectedOptions[0]?.dataset.categoria !== categoriaSeleccionada
+            ) {
                 subcategoria.value = '';
             }
         };

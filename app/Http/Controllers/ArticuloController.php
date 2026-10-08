@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Articulo;
+use App\Models\Categoria;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -19,12 +21,27 @@ class ArticuloController extends Controller
 
     public function create(): View
     {
-        return view('altaarticulos');
+        return view('altaarticulos', [
+            'categorias' => $this->categoriasDisponibles(),
+        ]);
     }
 
     public function edit(Articulo $articulo): View
     {
-        return view('altaarticulos', ['articulo' => $articulo]);
+        return view('altaarticulos', [
+            'articulo' => $articulo,
+            'categorias' => $this->categoriasDisponibles(),
+        ]);
+    }
+
+    private function categoriasDisponibles(): Collection
+    {
+        return Categoria::query()
+            ->select('nombre_categoria', 'nombre_subcategoria')
+            ->distinct()
+            ->orderBy('nombre_categoria')
+            ->orderBy('nombre_subcategoria')
+            ->get();
     }
 
     public function store(Request $request): RedirectResponse

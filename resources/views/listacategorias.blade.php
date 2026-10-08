@@ -175,7 +175,6 @@
                         <th scope="col">ID</th>
                         <th scope="col">Categoría</th>
                         <th scope="col">Subcategoría</th>
-                        <th scope="col">Artículo</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -185,7 +184,6 @@
                             <td>{{ $categoria->id }}</td>
                             <td>{{ $categoria->nombre_categoria }}</td>
                             <td>{{ $categoria->nombre_subcategoria }}</td>
-                            <td>{{ $categoria->articulo }}</td>
                             <td>
                                 <div class="actions">
                                     <a class="action-button action-button--edit" href="{{ route('categorias.edit', $categoria) }}">Editar</a>

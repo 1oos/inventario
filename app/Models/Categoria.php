@@ -9,6 +9,5 @@ class Categoria extends Model
     protected $fillable = [
         'nombre_categoria',
         'nombre_subcategoria',
-        'articulo',
     ];
 }

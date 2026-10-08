@@ -131,6 +131,7 @@
     <body>
         @include('partials.site-header')
 
+        <a href="{{ route('categorias.index') }}" style="display: inline-block; margin: 10px; padding: 10px 20px; background-color: #6e0505; color: white; text-decoration: none; border-radius: 4px; cursor: pointer;">Regresar a la lista de categorías</a>
         <div class="page-wrap">
             <div class="form-card">
                 <h1>{{ isset($categoria) ? 'Editar categoría' : 'Categorías' }}</h1>
@@ -165,11 +166,7 @@
                         <input id="nombre_subcategoria" type="text" name="nombre_subcategoria" value="{{ old('nombre_subcategoria', $categoria->nombre_subcategoria ?? '') }}" required>
                     </div>
 
-                    <div class="field full">
-                        <label for="articulo">Artículo</label>
-                        <input id="articulo" type="text" name="articulo" value="{{ old('articulo', $categoria->articulo ?? '') }}" required>
-                    </div>
-
+                    
                     <div class="submit-row">
                         <button type="submit">{{ isset($categoria) ? 'Actualizar categoría' : 'Agregar' }}</button>
                     </div>

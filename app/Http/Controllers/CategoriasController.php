@@ -12,8 +12,7 @@ class CategoriasController extends Controller
     public function index(): View
     {
         return view('listacategorias', [
-            'categorias' => Categoria::orderBy('nombre_categoria')
-                ->orderBy('nombre_subcategoria')
+            'categorias' => Categoria::orderBy('id')
                 ->get(),
         ]);
     }
@@ -33,7 +32,6 @@ class CategoriasController extends Controller
         $validated = $request->validate([
             'nombre_categoria' => ['required', 'string', 'max:255'],
             'nombre_subcategoria' => ['required', 'string', 'max:255'],
-            'articulo' => ['required', 'string', 'max:255'],
         ]);
 
         Categoria::create($validated);
@@ -46,7 +44,6 @@ class CategoriasController extends Controller
         $validated = $request->validate([
             'nombre_categoria' => ['required', 'string', 'max:255'],
             'nombre_subcategoria' => ['required', 'string', 'max:255'],
-            'articulo' => ['required', 'string', 'max:255'],
         ]);
 
         $categoria->update($validated);

@@ -136,6 +136,8 @@
 <body>
     @include('partials.site-header')
 
+    <a href="{{ route('resguardos.index') }}" style="display: inline-block; margin: 10px; padding: 10px 20px; background-color: #6e0505; color: white; text-decoration: none; border-radius: 4px;">Regresar a la lista de resguardos</a>
+
     <div class="page-wrap">
         <div class="form-card">
             <h1>{{ isset($resguardo) ? 'Editar resguardo' : 'Alta de resguardos' }}</h1>
