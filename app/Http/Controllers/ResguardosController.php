@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Articulo;
 use App\Models\Acceso;
+use App\Models\Areas;
 use App\Models\Resguardos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -47,7 +48,17 @@ class ResguardosController extends Controller
             return response()->json(['message' => 'No se encontró el empleado.'], 404);
         }
 
-        return response()->json($empleado);
+        $nombreArea = Areas::query()
+            ->where('ID', $empleado->area_id)
+            ->value('NOMBRE_AREA');
+
+        return response()->json([
+            'nombre' => $empleado->nombre,
+            'apellidop' => $empleado->apellidop,
+            'apellidom' => $empleado->apellidom,
+            'area_id' => $empleado->area_id,
+            'nombre_area' => $nombreArea,
+        ]);
     }
 
     public function store(Request $request): RedirectResponse

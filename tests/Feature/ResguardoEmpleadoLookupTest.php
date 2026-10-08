@@ -5,7 +5,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('employee lookup returns only the requested access fields', function () {
+test('employee lookup returns the employee access fields with area name', function () {
+    createAreasForTesting();
     createAccesoForTesting(7);
 
     Articulo::create([
@@ -29,7 +30,8 @@ test('employee lookup returns only the requested access fields', function () {
         ->assertSee('data-employee-field="nombre"', false)
         ->assertSee('data-employee-field="apellidop"', false)
         ->assertSee('data-employee-field="apellidom"', false)
-        ->assertSee('data-employee-field="area_id"', false);
+        ->assertSee('data-employee-field="area_id"', false)
+        ->assertSee('data-employee-field="nombre_area"', false);
 
     $this->getJson(route('resguardos.empleados.show', 7))
         ->assertOk()
@@ -37,7 +39,8 @@ test('employee lookup returns only the requested access fields', function () {
             'nombre' => 'Ana',
             'apellidop' => 'García',
             'apellidom' => 'López',
-            'area_id' => 12,
+            'area_id' => 2,
+            'nombre_area' => 'Oficina',
         ]);
 
     $this->getJson(route('resguardos.empleados.show', 8))

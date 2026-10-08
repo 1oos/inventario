@@ -30,8 +30,8 @@ function createAreasForTesting(): void
     }
 
     DB::table('areas')->insert([
-        ['NOMBRE_AREA' => 'Almacén'],
-        ['NOMBRE_AREA' => 'Oficina'],
+        ['ID' => 1, 'NOMBRE_AREA' => 'Almacén'],
+        ['ID' => 2, 'NOMBRE_AREA' => 'Oficina'],
     ]);
 }
 
@@ -53,7 +53,7 @@ function createAccesoForTesting(int $id): void
         'nombre' => 'Ana',
         'apellidop' => 'García',
         'apellidom' => 'López',
-        'area_id' => 12,
+        'area_id' => 2,
         'telefono' => '5551234567',
     ]);
 }

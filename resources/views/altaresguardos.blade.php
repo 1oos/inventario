@@ -72,7 +72,7 @@
             grid-column: 1 / -1;
         }
 
-        .employee-details {
+        .details-panel {
             grid-column: 1 / -1;
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -83,12 +83,20 @@
             background: #fff;
         }
 
-        .employee-details[hidden] {
+        .details-panel[hidden] {
             display: none;
         }
 
-        .employee-details p {
+        .details-panel p {
             margin: 0;
+        }
+
+        .article-image {
+            display: block;
+            max-width: 180px;
+            max-height: 180px;
+            margin-top: 8px;
+            object-fit: contain;
         }
 
         .lookup-status {
@@ -202,11 +210,11 @@
                         <p id="employee-lookup-status" class="lookup-status" role="status" aria-live="polite"></p>
                     </div>
 
-                    <section id="employee-details" class="employee-details" aria-label="Datos del empleado" hidden>
+                    <section id="employee-details" class="details-panel" aria-label="Datos del empleado" hidden>
                         <p>Nombre: <span data-employee-field="nombre"></span></p>
                         <p>Apellido paterno: <span data-employee-field="apellidop"></span></p>
                         <p>Apellido materno: <span data-employee-field="apellidom"></span></p>
-                        <p>Área: <span data-employee-field="area_id"></span></p>
+                        <p>Área: <span data-employee-field="area_id"></span> - <span data-employee-field="nombre_area"></span></p>
                     </section>
 
                     <div class="field">
@@ -214,12 +222,38 @@
                         <select id="id_articulo" name="id_articulo" required>
                             <option value="">Selecciona un artículo</option>
                             @foreach ($articulos as $articulo)
-                                <option value="{{ $articulo->id_articulo }}" @selected((string) old('id_articulo', $resguardo->id_articulo ?? '') === (string) $articulo->id_articulo)>
+                                <option
+                                    value="{{ $articulo->id_articulo }}"
+                                    data-nombre="{{ $articulo->nombre_articulo }}"
+                                    data-color="{{ $articulo->color }}"
+                                    data-estado="{{ $articulo->estado }}"
+                                    data-marca="{{ $articulo->marca }}"
+                                    data-codigo-barras="{{ $articulo->codigo_barras }}"
+                                    data-categoria="{{ $articulo->categoria }}"
+                                    data-subcategoria="{{ $articulo->subcategoria }}"
+                                    data-imagen="{{ $articulo->imagen ? asset('storage/' . $articulo->imagen) : '' }}"
+                                    @selected((string) old('id_articulo', $resguardo->id_articulo ?? '') === (string) $articulo->id_articulo)
+                                >
                                     {{ $articulo->nombre_articulo }} ({{ $articulo->id_articulo }})
                                 </option>
                             @endforeach
                         </select>
                     </div>
+
+                    <section id="article-details" class="details-panel" aria-label="Datos del artículo" hidden>
+                        <p>Nombre: <span data-article-field="nombre"></span></p>
+                        <p>Color: <span data-article-field="color"></span></p>
+                        <p>Estado: <span data-article-field="estado"></span></p>
+                        <p>Marca: <span data-article-field="marca"></span></p>
+                        <p>Código de barras: <span data-article-field="codigoBarras"></span></p>
+                        <p>Categoría: <span data-article-field="categoria"></span></p>
+                        <p>Subcategoría: <span data-article-field="subcategoria"></span></p>
+                        <p>
+                            Imagen:
+                            <img id="article-image" class="article-image" alt="" hidden>
+                            <span id="article-image-empty">Sin imagen</span>
+                        </p>
+                    </section>
 
                     <div class="field">
                         <label for="fecha_registro">Fecha de registro:</label>
@@ -239,6 +273,47 @@
         </div>
     </div>
     <script>
+        const articleSelect = document.getElementById('id_articulo');
+        const articleDetails = document.getElementById('article-details');
+        const articleImage = document.getElementById('article-image');
+        const articleImageEmpty = document.getElementById('article-image-empty');
+
+        function showArticleDetails() {
+            const selectedOption = articleSelect.selectedOptions[0];
+            if (!selectedOption || !selectedOption.value) {
+                articleDetails.hidden = true;
+                return;
+            }
+
+            const articleFields = {
+                nombre: selectedOption.dataset.nombre,
+                color: selectedOption.dataset.color,
+                estado: selectedOption.dataset.estado,
+                marca: selectedOption.dataset.marca,
+                codigoBarras: selectedOption.dataset.codigoBarras,
+                categoria: selectedOption.dataset.categoria,
+                subcategoria: selectedOption.dataset.subcategoria,
+            };
+
+            articleDetails.querySelectorAll('[data-article-field]').forEach((field) => {
+                field.textContent = articleFields[field.dataset.articleField] ?? '';
+            });
+
+            articleImage.hidden = !selectedOption.dataset.imagen;
+            articleImageEmpty.hidden = Boolean(selectedOption.dataset.imagen);
+            if (selectedOption.dataset.imagen) {
+                articleImage.src = selectedOption.dataset.imagen;
+                articleImage.alt = `Imagen de ${selectedOption.dataset.nombre}`;
+            } else {
+                articleImage.removeAttribute('src');
+                articleImage.alt = '';
+            }
+            articleDetails.hidden = false;
+        }
+
+        articleSelect.addEventListener('change', showArticleDetails);
+        showArticleDetails();
+
         const employeeId = document.getElementById('id_empleado');
         const employeeDetails = document.getElementById('employee-details');
         const lookupStatus = document.getElementById('employee-lookup-status');
