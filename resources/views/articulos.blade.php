@@ -205,10 +205,7 @@
         @if (session('error'))
             <p class="notice notice--error">{{ session('error') }}</p>
         @endif
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Buscar articulo" ariea-label="search"/>
-                <button class="btn btn-outline-success" type="submit">Buscar</button><br><br>
-            </form>
+            
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -219,7 +216,6 @@
                         <th scope="col">Codigo de barras</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Marca</th>
-                        <th scope="col">Modelo</th>
                         <th scope="col">Ubicación</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Acciones</th>
@@ -248,7 +244,6 @@
                                 </span>
                             </td>
                             <td>{{ $articulo->marca }}</td>
-                            <td>{{ $articulo->modelo }}</td>
                             <td>{{ $articulo->ubicacion }}</td>
                             <td>{{ $articulo->fecha_alta }}</td>
                             <td>
@@ -264,7 +259,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="empty-state" colspan="8">No hay artículos registrados.</td>
+                            <td class="empty-state" colspan="9">No hay artículos registrados.</td>
                         </tr>
                     @endforelse
                 </tbody>

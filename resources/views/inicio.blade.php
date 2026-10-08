@@ -80,6 +80,122 @@
             font-size: 13px;
         }
 
+        .inventory-carousel {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e0e7ef;
+            border-radius: 18px;
+            background: #ffffff;
+            box-shadow: 0 12px 32px rgba(25, 48, 77, .08);
+        }
+
+        .carousel-viewport {
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform .35s ease;
+        }
+
+        .carousel-slide {
+            position: relative;
+            display: grid;
+            min-width: 100%;
+            grid-template-rows: clamp(240px, 42vw, 480px) auto;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #f8fafc;
+        }
+
+        .carousel-caption {
+            padding: 18px 72px 22px;
+            text-align: center;
+        }
+
+        .carousel-caption h3 {
+            margin: 0 0 6px;
+            color: #172b4d;
+            font-size: 20px;
+        }
+
+        .carousel-caption p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .carousel-control {
+            position: absolute;
+            z-index: 1;
+            top: clamp(120px, 21vw, 240px);
+            display: grid;
+            width: 44px;
+            height: 44px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, .7);
+            border-radius: 50%;
+            background: rgba(23, 43, 77, .72);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 28px;
+            line-height: 1;
+            transform: translateY(-50%);
+            transition: background .18s ease;
+        }
+
+        .carousel-control:hover {
+            background: #172b4d;
+        }
+
+        .carousel-control:focus-visible,
+        .carousel-indicator:focus-visible {
+            outline: 3px solid #30859c;
+            outline-offset: 3px;
+        }
+
+        .carousel-control-prev {
+            left: 16px;
+        }
+
+        .carousel-control-next {
+            right: 16px;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 9px;
+            padding: 0 0 18px;
+        }
+
+        .carousel-indicator {
+            width: 10px;
+            height: 10px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+        }
+
+        .carousel-indicator[aria-current="true"] {
+            width: 25px;
+            border-radius: 8px;
+            background: #9c2a2a;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .carousel-track {
+                transition: none;
+            }
+        }
+
         .views {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -158,63 +274,99 @@
         <header class="intro">
 
             <h1>Todo tu inventario, en un solo lugar.</h1>
-            <p class="text-center">Elige una opción para administrar categorías, registrar artículos, asignar resguardos o generar un reporte.</p>
         </header>
 
         <section aria-labelledby="views-heading">
             <div class="section-heading">
-                <h2 id="views-heading">Selecciona una vista</h2>
-                <span>Accesos directos a los módulos</span>
             </div>
 
-            <div id="carousel" class="carousel slide" > 
+            <div id="inventory-carousel" class="inventory-carousel" role="region" aria-roledescription="carrusel" aria-label="Vistas del inventario">
+                <div class="carousel-viewport">
+                    <div class="carousel-track">
+                        <article class="carousel-slide" role="group" aria-roledescription="diapositiva" aria-label="1 de 4">
+                            <img src="{{ asset('images/categorias.png') }}" alt="Vista de categorías del inventario">
+                            <div class="carousel-caption">
+                                <h3>Categorías</h3>
+                                <p>Organiza las categorías, subcategorías y artículos del inventario.</p>
+                            </div>
+                        </article>
+                        <article class="carousel-slide" role="group" aria-roledescription="diapositiva" aria-label="2 de 4" aria-hidden="true">
+                            <img src="{{ asset('images/articulos.png') }}" alt="Formulario para registrar un artículo">
+                            <div class="carousel-caption">
+                                <h3>Registrar artículo</h3>
+                                <p>Da de alta un artículo con sus datos, estado y ubicación.</p>
+                            </div>
+                        </article>
+                        <article class="carousel-slide" role="group" aria-roledescription="diapositiva" aria-label="3 de 4" aria-hidden="true">
+                            <img src="{{ asset('images/resguardos.png') }}" alt="Vista de resguardos de artículos">
+                            <div class="carousel-caption">
+                                <h3>Resguardos</h3>
+                                <p>Asigna artículos a empleados y registra cada resguardo.</p>
+                            </div>
+                        </article>
+                        <article class="carousel-slide" role="group" aria-roledescription="diapositiva" aria-label="4 de 4" aria-hidden="true">
+                            <img src="{{ asset('images/reporte.png') }}" alt="Formulario del reporte de inventario">
+                            <div class="carousel-caption">
+                                <h3>Reporte de inventario</h3>
+                                <p>Captura los datos necesarios para generar un reporte de inventario.</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <button class="carousel-control carousel-control-prev" type="button" aria-label="Diapositiva anterior">&lsaquo;</button>
+                <button class="carousel-control carousel-control-next" type="button" aria-label="Diapositiva siguiente">&rsaquo;</button>
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    <button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                </div>
-            <div id="carousel" class="carousel-inner">
-                <div>
-                    <img src="categorias.png" class="d-block w-100" alt="Imagen de categorías">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Categorías</h5>
-                        <p>Organiza las categorías, subcategorías y artículos del inventario.</p>
-                    </div>
-                </div>
-                <div id="carousel" class="carousel-item">
-                    <img src="articulos.png" class="d-block w-100" alt="Imagen de registrar artículo">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Registrar artículo</h5>
-                        <p>Da de alta un artículo con sus datos, estado y ubicación.</p>
-                    </div>
-                </div>
-                <div id="carousel" class="carousel-item">
-                    <img src="resguardos.png" class="d-block w-100" alt="Imagen de resguardos">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Resguardos</h5>
-                        <p>Asigna artículos a empleados y registra cada resguardo.</p>
-                    </div>
-                </div>
-                <div id="carousel" class="carousel-item">
-                    <img src="reporte.png" class="d-block w-100" alt="Imagen de reporte de inventario">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Reporte de inventario</h5>
-                        <p>Captura los datos necesarios para generar un reporte de inventario.</p>
-                    </div>
+                    <button class="carousel-indicator" type="button" aria-label="Mostrar categorías" aria-current="true"></button>
+                    <button class="carousel-indicator" type="button" aria-label="Mostrar registro de artículos"></button>
+                    <button class="carousel-indicator" type="button" aria-label="Mostrar resguardos"></button>
+                    <button class="carousel-indicator" type="button" aria-label="Mostrar reporte de inventario"></button>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Anterior</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Siguiente</span>
-            </button>
-            </div>
-        </div>
         </section>
     </main>
+    <script>
+        const carousel = document.querySelector('#inventory-carousel');
+        const track = carousel.querySelector('.carousel-track');
+        const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+        const indicators = Array.from(carousel.querySelectorAll('.carousel-indicator'));
+        let activeSlide = 0;
+
+        function showSlide(index) {
+            activeSlide = (index + slides.length) % slides.length;
+            track.style.transform = `translateX(-${activeSlide * 100}%)`;
+
+            slides.forEach((slide, slideIndex) => {
+                slide.setAttribute('aria-hidden', String(slideIndex !== activeSlide));
+            });
+
+            indicators.forEach((indicator, indicatorIndex) => {
+                if (indicatorIndex === activeSlide) {
+                    indicator.setAttribute('aria-current', 'true');
+                } else {
+                    indicator.removeAttribute('aria-current');
+                }
+            });
+        }
+
+        carousel.querySelector('.carousel-control-prev').addEventListener('click', () => {
+            showSlide(activeSlide - 1);
+        });
+
+        carousel.querySelector('.carousel-control-next').addEventListener('click', () => {
+            showSlide(activeSlide + 1);
+        });
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => showSlide(index));
+        });
+
+        carousel.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowLeft') {
+                showSlide(activeSlide - 1);
+            } else if (event.key === 'ArrowRight') {
+                showSlide(activeSlide + 1);
+            }
+        });
+    </script>
 </body>
 </html>
