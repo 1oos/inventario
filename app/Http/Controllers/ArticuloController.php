@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Articulo;
+use App\Models\Areas;
 use App\Models\Categoria;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
@@ -23,6 +24,7 @@ class ArticuloController extends Controller
     {
         return view('altaarticulos', [
             'categorias' => $this->categoriasDisponibles(),
+            'areas' => $this->areasDisponibles(),
         ]);
     }
 
@@ -31,6 +33,7 @@ class ArticuloController extends Controller
         return view('altaarticulos', [
             'articulo' => $articulo,
             'categorias' => $this->categoriasDisponibles(),
+            'areas' => $this->areasDisponibles(),
         ]);
     }
 
@@ -41,6 +44,14 @@ class ArticuloController extends Controller
             ->distinct()
             ->orderBy('nombre_categoria')
             ->orderBy('nombre_subcategoria')
+            ->get();
+    }
+
+    private function areasDisponibles(): Collection
+    {
+        return Areas::query()
+            ->select('NOMBRE_AREA')
+            ->orderBy('NOMBRE_AREA')
             ->get();
     }
 
@@ -59,7 +70,7 @@ class ArticuloController extends Controller
             'serie' => ['required', 'string', 'max:255'],
             'categoria' => ['required', 'string', 'max:255'],
             'subcategoria' => ['required', 'string', 'max:255'],
-            'ubicacion' => ['required', 'string', 'max:255'],
+            'ubicacion' => ['required', 'string', 'max:255', 'exists:areas,NOMBRE_AREA'],
             'observaciones' => ['nullable', 'string'],
             'numero_factura' => ['nullable', 'string', 'max:255'],
         ]);
@@ -86,7 +97,7 @@ class ArticuloController extends Controller
             'serie' => ['required', 'string', 'max:255'],
             'categoria' => ['required', 'string', 'max:255'],
             'subcategoria' => ['required', 'string', 'max:255'],
-            'ubicacion' => ['required', 'string', 'max:255'],
+            'ubicacion' => ['required', 'string', 'max:255', 'exists:areas,NOMBRE_AREA'],
             'observaciones' => ['nullable', 'string'],
             'numero_factura' => ['nullable', 'string', 'max:255'],
         ]);

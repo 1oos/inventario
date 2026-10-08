@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 /*
@@ -16,6 +19,21 @@ use Tests\TestCase;
 pest()->extend(TestCase::class)
  // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature');
+
+function createAreasForTesting(): void
+{
+    if (! Schema::hasTable('areas')) {
+        Schema::create('areas', function (Blueprint $table) {
+            $table->increments('ID');
+            $table->string('NOMBRE_AREA')->unique();
+        });
+    }
+
+    DB::table('areas')->insert([
+        ['NOMBRE_AREA' => 'Almacén'],
+        ['NOMBRE_AREA' => 'Oficina'],
+    ]);
+}
 
 /*
 |--------------------------------------------------------------------------

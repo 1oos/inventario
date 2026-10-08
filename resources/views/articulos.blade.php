@@ -220,6 +220,7 @@
                         <th scope="col">Estado</th>
                         <th scope="col">Marca</th>
                         <th scope="col">Modelo</th>
+                        <th scope="col">Ubicación</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Acciones</th>
                     </tr>
@@ -248,6 +249,7 @@
                             </td>
                             <td>{{ $articulo->marca }}</td>
                             <td>{{ $articulo->modelo }}</td>
+                            <td>{{ $articulo->ubicacion }}</td>
                             <td>{{ $articulo->fecha_alta }}</td>
                             <td>
                                 <div class="actions">

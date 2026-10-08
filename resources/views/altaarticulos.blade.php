@@ -305,7 +305,14 @@
 
                 <div class="field">
                     <label for="ubicacion">Ubicación:</label>
-                    <input id="ubicacion" type="text" name="ubicacion" value="{{ old('ubicacion', $articulo->ubicacion ?? '') }}" required>
+                    <select id="ubicacion" name="ubicacion" required>
+                        <option value="">Selecciona un área</option>
+                        @foreach ($areas as $area)
+                            <option value="{{ $area->NOMBRE_AREA }}" @selected(old('ubicacion', $articulo->ubicacion ?? '') === $area->NOMBRE_AREA)>
+                                {{ $area->NOMBRE_AREA }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="field full">
