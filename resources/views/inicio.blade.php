@@ -213,31 +213,7 @@
                 <span class="visually-hidden">Siguiente</span>
             </button>
             </div>
-            <div class="views">
-                <article class="view-card">
-                    <span class="view-icon" aria-hidden="true">01</span>
-                    <h3>Categorías</h3>
-                    <p>Organiza las categorías, subcategorías y artículos del inventario.</p>
-                </article>
-
-                <article class="view-card">
-                    <span class="view-icon" aria-hidden="true">02</span>
-                    <h3>Registrar artículo</h3>
-                    <p>Da de alta un artículo con sus datos, estado y ubicación.</p>
-                </article>
-
-                <article class="view-card">
-                    <span class="view-icon" aria-hidden="true">03</span>
-                    <h3>Resguardos</h3>
-                    <p>Asigna artículos a empleados y registra cada resguardo.</p>
-                </article>
-
-                <article class="view-card">
-                    <span class="view-icon" aria-hidden="true">04</span>
-                    <h3>Reporte de inventario</h3>
-                    <p>Captura los datos necesarios para generar un reporte de inventario.</p>
-                </article>
-            </div>
+        </div>
         </section>
     </main>
 </body>
