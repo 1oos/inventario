@@ -72,6 +72,32 @@
             grid-column: 1 / -1;
         }
 
+        .employee-details {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px 24px;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .employee-details[hidden] {
+            display: none;
+        }
+
+        .employee-details p {
+            margin: 0;
+        }
+
+        .lookup-status {
+            min-height: 1.2em;
+            margin: 0;
+            color: #991b1b;
+            font-size: 0.9rem;
+        }
+
         label {
             font-weight: bold;
             color: #374151;
@@ -173,7 +199,15 @@
                     <div class="field">
                         <label for="id_empleado">Id empleado:</label>
                         <input id="id_empleado" type="number" name="id_empleado" min="1" value="{{ old('id_empleado', $resguardo->id_empleado ?? '') }}" required>
+                        <p id="employee-lookup-status" class="lookup-status" role="status" aria-live="polite"></p>
                     </div>
+
+                    <section id="employee-details" class="employee-details" aria-label="Datos del empleado" hidden>
+                        <p>Nombre: <span data-employee-field="nombre"></span></p>
+                        <p>Apellido paterno: <span data-employee-field="apellidop"></span></p>
+                        <p>Apellido materno: <span data-employee-field="apellidom"></span></p>
+                        <p>Área: <span data-employee-field="area_id"></span></p>
+                    </section>
 
                     <div class="field">
                         <label for="id_articulo">Artículo:</label>
@@ -204,5 +238,55 @@
             @endif
         </div>
     </div>
+    <script>
+        const employeeId = document.getElementById('id_empleado');
+        const employeeDetails = document.getElementById('employee-details');
+        const lookupStatus = document.getElementById('employee-lookup-status');
+        const employeeEndpoint = "{{ route('resguardos.empleados.show', ['id' => '__ID__']) }}";
+        let employeeLookupController;
+
+        employeeId.addEventListener('input', async () => {
+            employeeLookupController?.abort();
+            employeeDetails.hidden = true;
+            lookupStatus.textContent = '';
+
+            if (!employeeId.value || !Number.isInteger(Number(employeeId.value)) || Number(employeeId.value) < 1) {
+                return;
+            }
+
+            employeeLookupController = new AbortController();
+            lookupStatus.textContent = 'Buscando empleado...';
+
+            try {
+                const response = await fetch(
+                    employeeEndpoint.replace('__ID__', encodeURIComponent(employeeId.value)),
+                    { signal: employeeLookupController.signal }
+                );
+
+                if (response.status === 404) {
+                    lookupStatus.textContent = 'No existe un empleado con ese ID.';
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error(`La consulta del empleado falló (${response.status}).`);
+                }
+
+                const empleado = await response.json();
+                employeeDetails.querySelectorAll('[data-employee-field]').forEach((field) => {
+                    field.textContent = empleado[field.dataset.employeeField] ?? '';
+                });
+                employeeDetails.hidden = false;
+                lookupStatus.textContent = '';
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    return;
+                }
+
+                lookupStatus.textContent = 'No fue posible consultar los datos del empleado.';
+                console.error(error);
+            }
+        });
+    </script>
 </body>
 </html>

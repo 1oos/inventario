@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Articulo;
+use App\Models\Acceso;
 use App\Models\Resguardos;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -35,10 +37,23 @@ class ResguardosController extends Controller
         ]);
     }
 
+    public function empleado(int $id): JsonResponse
+    {
+        $empleado = Acceso::query()
+            ->where('id', $id)
+            ->first(['nombre', 'apellidop', 'apellidom', 'area_id']);
+
+        if (! $empleado) {
+            return response()->json(['message' => 'No se encontró el empleado.'], 404);
+        }
+
+        return response()->json($empleado);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'id_empleado' => ['required', 'integer', 'min:1'],
+            'id_empleado' => ['required', 'integer', 'min:1', 'exists:acceso,id'],
             'id_articulo' => ['required', 'integer', 'exists:articulos,id_articulo'],
             'fecha_registro' => ['required', 'date'],
             'observaciones' => ['nullable', 'string'],
@@ -52,7 +67,7 @@ class ResguardosController extends Controller
     public function update(Request $request, Resguardos $resguardo): RedirectResponse
     {
         $validated = $request->validate([
-            'id_empleado' => ['required', 'integer', 'min:1'],
+            'id_empleado' => ['required', 'integer', 'min:1', 'exists:acceso,id'],
             'id_articulo' => ['required', 'integer', 'exists:articulos,id_articulo'],
             'fecha_registro' => ['required', 'date'],
             'observaciones' => ['nullable', 'string'],

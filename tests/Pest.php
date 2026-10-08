@@ -35,6 +35,29 @@ function createAreasForTesting(): void
     ]);
 }
 
+function createAccesoForTesting(int $id): void
+{
+    if (! Schema::hasTable('acceso')) {
+        Schema::create('acceso', function (Blueprint $table) {
+            $table->unsignedBigInteger('id')->primary();
+            $table->string('nombre');
+            $table->string('apellidop');
+            $table->string('apellidom');
+            $table->unsignedBigInteger('area_id');
+            $table->string('telefono')->nullable();
+        });
+    }
+
+    DB::table('acceso')->insert([
+        'id' => $id,
+        'nombre' => 'Ana',
+        'apellidop' => 'García',
+        'apellidom' => 'López',
+        'area_id' => 12,
+        'telefono' => '5551234567',
+    ]);
+}
+
 /*
 |--------------------------------------------------------------------------
 | Expectations

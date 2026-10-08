@@ -24,6 +24,9 @@ Route::delete('/articulos/{articulo}', [ArticuloController::class, 'destroy'])->
 
 Route::get('/resguardos', [ResguardosController::class, 'index'])->name('resguardos.index');
 Route::get('/resguardos/nuevo', [ResguardosController::class, 'create'])->name('resguardos.create');
+Route::get('/resguardos/empleados/{id}', [ResguardosController::class, 'empleado'])
+    ->whereNumber('id')
+    ->name('resguardos.empleados.show');
 Route::post('/resguardos/guardar', [ResguardosController::class, 'store'])->name('resguardos.store');
 Route::get('/resguardos/{resguardo}/editar', [ResguardosController::class, 'edit'])->name('resguardos.edit');
 Route::put('/resguardos/{resguardo}', [ResguardosController::class, 'update'])->name('resguardos.update');

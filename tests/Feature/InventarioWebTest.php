@@ -5,7 +5,7 @@ use App\Models\Categoria;
 use App\Models\Resguardos;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-uses(Tests\TestCase::class, RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 test('category form saves categories', function () {
     /** @var Tests\TestCase $this */
@@ -129,6 +129,8 @@ test('web forms save articles and related safeguards', function () {
     $this->get(route('resguardos.create'))
         ->assertOk()
         ->assertSee('Laptop');
+
+    createAccesoForTesting(7);
 
     $this->post(route('resguardos.store'), [
         'id_empleado' => 7,

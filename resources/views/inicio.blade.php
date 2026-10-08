@@ -291,7 +291,7 @@
                             </div>
                         </article>
                         <article class="carousel-slide" role="group" aria-roledescription="diapositiva" aria-label="2 de 4" aria-hidden="true">
-                            <img src="{{ asset('images/articulos.png') }}" alt="Formulario para registrar un artículo">
+                            <img src="{{ asset('images/articulo.png') }}" alt="Formulario para registrar un artículo">
                             <div class="carousel-caption">
                                 <h3>Registrar artículo</h3>
                                 <p>Da de alta un artículo con sus datos, estado y ubicación.</p>
