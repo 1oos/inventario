@@ -4,11 +4,12 @@ use App\Models\Articulo;
 use App\Models\Categoria;
 use App\Models\Resguardos;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 uses(RefreshDatabase::class);
 
 test('category form saves categories', function () {
-    /** @var Tests\TestCase $this */
+    /** @var TestCase $this */
     $this->get(route('categorias.index'))
         ->assertOk()
         ->assertSee('Categoría')
@@ -39,7 +40,7 @@ test('category form saves categories', function () {
 });
 
 test('categories can be edited and deleted from the list', function () {
-    /** @var Tests\TestCase $this */
+    /** @var TestCase $this */
     $categoria = Categoria::create([
         'nombre_categoria' => 'Electronica',
         'nombre_subcategoria' => 'Computadoras',
@@ -75,7 +76,7 @@ test('categories can be edited and deleted from the list', function () {
 });
 
 test('web forms save articles and related safeguards', function () {
-    /** @var Tests\TestCase $this */
+    /** @var TestCase $this */
     createAreasForTesting();
 
     $this->get(route('articulos.index'))
@@ -118,6 +119,7 @@ test('web forms save articles and related safeguards', function () {
         'id_articulo' => 123,
         'nombre_articulo' => 'Laptop',
         'numero_factura' => 'FAC-123',
+        'codigo_barras' => 'ART-123',
     ]);
 
     $this->get(route('articulos.index'))
@@ -161,7 +163,7 @@ test('web forms save articles and related safeguards', function () {
 });
 
 test('articles can be edited and deleted from the list', function () {
-    /** @var Tests\TestCase $this */
+    /** @var TestCase $this */
     createAreasForTesting();
 
     $articulo = Articulo::create([
@@ -177,6 +179,8 @@ test('articles can be edited and deleted from the list', function () {
         'subcategoria' => 'Computadoras',
         'ubicacion' => 'Almacén',
     ]);
+
+    $this->assertSame('ART-456', $articulo->codigo_barras);
 
     $this->get(route('articulos.index'))
         ->assertOk()
@@ -215,7 +219,7 @@ test('articles can be edited and deleted from the list', function () {
 });
 
 test('resguardos can be edited and deleted from the list', function () {
-    /** @var Tests\TestCase $this */
+    /** @var TestCase $this */
     $articulo = Articulo::create([
         'id_articulo' => 789,
         'nombre_articulo' => 'Proyector',
@@ -267,7 +271,7 @@ test('resguardos can be edited and deleted from the list', function () {
 });
 
 test('resguardos require an existing article', function () {
-    /** @var Tests\TestCase $this */
+    /** @var TestCase $this */
     $this->post(route('resguardos.store'), [
         'id_empleado' => 7,
         'id_articulo' => 999,

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Articulo;
 use App\Models\Areas;
+use App\Models\Articulo;
 use App\Models\Categoria;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class ArticuloController extends Controller
@@ -64,7 +65,6 @@ class ArticuloController extends Controller
             'estado' => ['required', 'in:En buen estado,En mal estado'],
             'marca' => ['required', 'string', 'max:255'],
             'modelo' => ['required', 'string', 'max:255'],
-            'codigo_barras' => ['required', 'string', 'max:255'],
             'imagen' => ['nullable', 'image', 'max:2048'],
             'fecha_alta' => ['required', 'date'],
             'serie' => ['required', 'string', 'max:255'],
@@ -74,6 +74,13 @@ class ArticuloController extends Controller
             'observaciones' => ['nullable', 'string'],
             'numero_factura' => ['nullable', 'string', 'max:255'],
         ]);
+
+        $codigoBarras = Articulo::generarCodigoBarras($validated['id_articulo']);
+        Validator::make(
+            ['codigo_barras' => $codigoBarras],
+            ['codigo_barras' => ['required', 'string', 'max:255', 'unique:articulos,codigo_barras']]
+        )->validate();
+        $validated['codigo_barras'] = $codigoBarras;
 
         if ($request->hasFile('imagen')) {
             $validated['imagen'] = $request->file('imagen')->store('articulos', 'public');

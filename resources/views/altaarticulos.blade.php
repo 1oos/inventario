@@ -152,6 +152,51 @@
             margin-top: 10px;
         }
 
+        .barcode-tools {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #d1d5db;
+            text-align: center;
+        }
+
+        .print-label {
+            width: min(100%, 360px);
+            margin: 0 auto 16px;
+            padding: 16px;
+            border: 1px dashed #64748b;
+            border-radius: 8px;
+            background: #fff;
+            color: #111827;
+        }
+
+        .print-label svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin: 0 auto 8px;
+        }
+
+        .print-label p {
+            margin: 5px 0 0;
+            overflow-wrap: anywhere;
+        }
+
+        .print-label .label-name {
+            font-weight: 700;
+        }
+
+        .barcode-message {
+            min-height: 1.25em;
+            margin: 10px 0 0;
+            color: #991b1b;
+        }
+
+        .barcode-print-note {
+            margin: 10px 0 0;
+            color: #475569;
+            font-size: 13px;
+        }
+
         button {
             padding: 10px 20px;
             border-radius: 4px;
@@ -164,6 +209,54 @@
 
         button:hover {
             background-color: #1d4ed8;
+        }
+
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        @media print {
+            @page {
+                margin: 0;
+            }
+
+            body,
+            .page-wrap {
+                min-height: 0;
+                margin: 0;
+                padding: 0;
+                background: #fff;
+            }
+
+            body * {
+                visibility: hidden !important;
+            }
+
+            #print-label,
+            #print-label * {
+                visibility: visible !important;
+            }
+
+            #print-label {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 80mm;
+                margin: 0;
+                padding: 5mm;
+                border: 0;
+                border-radius: 0;
+            }
+
+            .barcode-tools,
+            .print-label svg {
+                break-inside: avoid;
+            }
+
+            .barcode-print-note {
+                display: none !important;
+            }
         }
 
         @media (max-width: 640px) {
@@ -259,7 +352,16 @@
 
                 <div class="field">
                     <label for="codigo_barras">Código de barras:</label>
-                    <input id="codigo_barras" type="text" name="codigo_barras" value="{{ old('codigo_barras', $articulo->codigo_barras ?? '') }}" required>
+                    <input
+                        id="codigo_barras"
+                        type="text"
+                        name="codigo_barras"
+                        value="{{ old('codigo_barras', $articulo->codigo_barras ?? '') }}"
+                        data-generate-from-id="{{ isset($articulo) ? 'false' : 'true' }}"
+                        readonly
+                        aria-describedby="codigo-barras-ayuda"
+                    >
+                    <small id="codigo-barras-ayuda">Se genera automáticamente con el ID del artículo.</small>
                 </div>
 
                 <div class="field">
@@ -339,13 +441,63 @@
                     <button type="submit">{{ isset($articulo) ? 'Actualizar artículo' : 'Guardar artículo' }}</button>
                 </div>
             </form>
+
+            <section class="barcode-tools" aria-label="Etiqueta del artículo">
+                <div class="print-label" id="print-label">
+                    <svg id="barcode-svg" role="img" aria-label="Código de barras"></svg>
+                    <p class="label-name" id="label-name"></p>
+                    <p id="label-serial"></p>
+                </div>
+                <div class="print-actions">
+                    <p class="barcode-message" id="barcode-message" aria-live="polite"></p>
+                    <p class="barcode-print-note">Puedes imprimir esta etiqueta desde la consulta de artículos.</p>
+                </div>
+            </section>
         </div>
     </div>
 
+    <script src="{{ asset('js/barcode.js') }}"></script>
     <script>
         const categoria = document.getElementById('categoria');
         const subcategoriaContainer = document.getElementById('subcategoria-container');
         const subcategoria = document.getElementById('subcategoria');
+        const idArticulo = document.getElementById('id_articulo');
+        const codigoBarras = document.getElementById('codigo_barras');
+        const nombreArticulo = document.getElementById('nombre_articulo');
+        const serieArticulo = document.getElementById('serie');
+        const barcodeSvg = document.getElementById('barcode-svg');
+        const barcodeMessage = document.getElementById('barcode-message');
+        const dibujarCodigoBarras = (valor) => {
+            barcodeMessage.textContent = '';
+            const codigoValido = window.dibujarCodigoBarras(barcodeSvg, valor);
+            if (!codigoValido && valor) {
+                barcodeMessage.textContent = 'El código contiene caracteres no compatibles con el código de barras.';
+            }
+            return codigoValido;
+        };
+
+        const actualizarEtiqueta = () => {
+            document.getElementById('label-name').textContent = nombreArticulo.value;
+            document.getElementById('label-serial').textContent = `Número de serie: ${serieArticulo.value}`;
+            const codigoValido = dibujarCodigoBarras(codigoBarras.value);
+            barcodeSvg.setAttribute('aria-label', codigoValido ? `Código de barras ${codigoBarras.value}` : 'Código de barras no válido');
+        };
+
+        if (codigoBarras.dataset.generateFromId === 'true') {
+            const generarCodigoBarras = () => {
+                const id = idArticulo.value.trim();
+                codigoBarras.value = /^[1-9]\d*$/.test(id) ? `ART-${id}` : '';
+                actualizarEtiqueta();
+            };
+
+            idArticulo.addEventListener('input', generarCodigoBarras);
+            generarCodigoBarras();
+        } else {
+            actualizarEtiqueta();
+        }
+
+        nombreArticulo.addEventListener('input', actualizarEtiqueta);
+        serieArticulo.addEventListener('input', actualizarEtiqueta);
 
         const actualizarSubcategoria = () => {
             const categoriaSeleccionada = categoria.value;

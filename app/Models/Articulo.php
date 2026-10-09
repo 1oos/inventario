@@ -13,6 +13,20 @@ class Articulo extends Model
 
     protected $keyType = 'int';
 
+    protected static function booted(): void
+    {
+        static::creating(function (Articulo $articulo): void {
+            if ($articulo->codigo_barras === null || $articulo->codigo_barras === '') {
+                $articulo->codigo_barras = self::generarCodigoBarras($articulo->getKey());
+            }
+        });
+    }
+
+    public static function generarCodigoBarras(int|string $idArticulo): string
+    {
+        return 'ART-'.$idArticulo;
+    }
+
     protected $fillable = [
         'id_articulo',
         'nombre_articulo',

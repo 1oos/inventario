@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use Tests\TestCase;
 
 uses(RefreshDatabase::class);
 
@@ -25,9 +26,12 @@ test('article form shows categories and subcategories stored in the database', f
         ],
     ]);
 
-    /** @var \Tests\TestCase $this */
+    /** @var TestCase $this */
     $this->get(route('articulos.create'))
         ->assertOk()
+        ->assertSee('js/barcode.js')
+        ->assertDontSee('Imprimir etiquetas')
+        ->assertSee('data-generate-from-id="true"', false)
         ->assertSee('<option value="Electronica"', false)
         ->assertSee('<option value="Mobiliario"', false)
         ->assertSee('value="Computadoras"', false)
@@ -56,14 +60,21 @@ test('article location must be an existing area and is saved by its name', funct
         'subcategoria' => 'Computadoras',
     ];
 
-    /** @var \Tests\TestCase $this */
+    /** @var TestCase $this */
     $this->post(route('articulos.store'), [...$article, 'ubicacion' => 'Oficina'])
         ->assertRedirect(route('articulos.index'));
 
     $this->assertDatabaseHas('articulos', [
         'id_articulo' => 123,
         'ubicacion' => 'Oficina',
+        'codigo_barras' => 'ART-123',
     ]);
+
+    $this->get(route('articulos.index'))
+        ->assertOk()
+        ->assertSee('Imprimir etiquetas')
+        ->assertSee('data-barcode="ART-123"', false)
+        ->assertSee('Número de serie: SERIE-123');
 
     $this->post(route('articulos.store'), [
         ...$article,

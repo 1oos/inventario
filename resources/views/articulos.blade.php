@@ -60,9 +60,30 @@
             background: #650707;
         }
 
+        .print-button {
+            border: 0;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .page-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
         .register-button:focus-visible {
             outline: 3px solid #83c4d1;
             outline-offset: 3px;
+        }
+
+        .print-message {
+            margin: 10px 0 18px;
+            color: #a1301c;
+        }
+
+        .print-labels {
+            display: none;
         }
 
         .notice {
@@ -187,6 +208,65 @@
                 flex-direction: column;
             }
         }
+
+        @media print {
+            @page {
+                margin: 0;
+            }
+
+            body * {
+                visibility: hidden !important;
+            }
+
+            #article-labels,
+            #article-labels * {
+                visibility: visible !important;
+            }
+
+            #article-labels {
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: block;
+                width: 100%;
+                padding: 5mm;
+            }
+
+            .print-labels-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 80mm);
+                gap: 5mm;
+                justify-content: start;
+            }
+
+            .print-label {
+                width: 80mm;
+                min-height: 35mm;
+                padding: 3mm;
+                overflow: hidden;
+                color: #111827;
+                text-align: center;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .print-label svg {
+                display: block;
+                width: 100%;
+                height: 18mm;
+            }
+
+            .print-label p {
+                margin: 1mm 0 0;
+                overflow-wrap: anywhere;
+                font-family: Arial, sans-serif;
+                font-size: 10pt;
+            }
+
+            .print-label .label-name {
+                font-weight: 700;
+            }
+        }
     </style>
 </head>
 <body>
@@ -195,7 +275,15 @@
     <main>
         <div class="page-heading">
             <h1>Artículos</h1>
-            <a class="register-button" href="{{ route('articulos.create') }}">Registrar artículo</a>
+            <div class="page-actions">
+                <a class="register-button" href="{{ route('articulos.create') }}">Registrar artículo</a>
+                <button
+                    class="register-button print-button"
+                    id="print-labels-button"
+                    type="button"
+                    @disabled($articulos->isEmpty())
+                >Imprimir etiquetas</button>
+            </div>
         </div>
 
         @if (session('mensaje'))
@@ -205,7 +293,11 @@
         @if (session('error'))
             <p class="notice notice--error">{{ session('error') }}</p>
         @endif
-            
+
+        @if ($articulos->isNotEmpty())
+            <p class="print-message" id="print-message" role="status" hidden></p>
+        @endif
+
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -265,6 +357,50 @@
                 </tbody>
             </table>
         </div>
+
+        @if ($articulos->isNotEmpty())
+            <section class="print-labels" id="article-labels" aria-label="Etiquetas de los artículos">
+                <div class="print-labels-grid">
+                    @foreach ($articulos as $articulo)
+                        <article class="print-label">
+                            <svg
+                                class="article-barcode"
+                                data-barcode="{{ $articulo->codigo_barras }}"
+                                role="img"
+                                aria-label="Código de barras de {{ $articulo->nombre_articulo }}"
+                            ></svg>
+                            <p class="label-name">{{ $articulo->nombre_articulo }}</p>
+                            <p>Número de serie: {{ $articulo->serie }}</p>
+                            <p class="barcode-error" hidden></p>
+                        </article>
+                    @endforeach
+                </div>
+            </section>
+        @endif
     </main>
+    @if ($articulos->isNotEmpty())
+        <script src="{{ asset('js/barcode.js') }}"></script>
+        <script>
+            const etiquetas = Array.from(document.querySelectorAll('.article-barcode'));
+            const printMessage = document.getElementById('print-message');
+            const printButton = document.getElementById('print-labels-button');
+            const etiquetasInvalidas = etiquetas.filter((svg) => {
+                const valido = window.dibujarCodigoBarras(svg, svg.dataset.barcode);
+                if (!valido) {
+                    const mensaje = svg.parentElement.querySelector('.barcode-error');
+                    mensaje.textContent = `No se puede imprimir: el código "${svg.dataset.barcode}" contiene caracteres no compatibles.`;
+                    mensaje.hidden = false;
+                }
+                return !valido;
+            });
+
+            printButton.disabled = etiquetasInvalidas.length > 0;
+            if (etiquetasInvalidas.length > 0) {
+                printMessage.textContent = 'Hay códigos de barras con caracteres no compatibles. Corrígelos antes de imprimir las etiquetas.';
+                printMessage.hidden = false;
+            }
+            printButton.addEventListener('click', () => window.print());
+        </script>
+    @endif
 </body>
 </html>
