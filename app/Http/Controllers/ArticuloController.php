@@ -17,7 +17,7 @@ class ArticuloController extends Controller
     public function index(): View
     {
         return view('articulos', [
-            'articulos' => Articulo::orderByDesc('fecha_alta')->orderBy('id_articulo')->get(),
+            'articulos' => Articulo::orderBy('id_articulo')->get(),
         ]);
     }
 

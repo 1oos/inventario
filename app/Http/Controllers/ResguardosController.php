@@ -16,9 +16,7 @@ class ResguardosController extends Controller
     public function index(): View
     {
         return view('resguardos', [
-            'resguardos' => Resguardos::with('articulo')
-                ->orderByDesc('fecha_registro')
-                ->orderByDesc('id')
+            'resguardos' => Resguardos::orderBy('id')
                 ->get(),
         ]);
     }

@@ -75,6 +75,43 @@ test('categories can be edited and deleted from the list', function () {
     $this->assertDatabaseMissing('categorias', ['id' => $categoria->id]);
 });
 
+test('articles are listed by id_articulo', function () {
+    /** @var TestCase $this */
+    createAreasForTesting();
+
+    Articulo::create([
+        'id_articulo' => 12,
+        'nombre_articulo' => 'Lapicera',
+        'color' => 'Azul',
+        'estado' => 'En buen estado',
+        'marca' => 'Marca',
+        'modelo' => 'Modelo 9',
+        'fecha_alta' => '2026-10-09',
+        'serie' => 'SERIE-12',
+        'categoria' => 'Papeleria',
+        'subcategoria' => 'Escritura',
+        'ubicacion' => 'Oficina',
+    ]);
+
+    Articulo::create([
+        'id_articulo' => 2,
+        'nombre_articulo' => 'Grapadora',
+        'color' => 'Rojo',
+        'estado' => 'En buen estado',
+        'marca' => 'Marca',
+        'modelo' => 'Modelo 2',
+        'fecha_alta' => '2026-10-08',
+        'serie' => 'SERIE-2',
+        'categoria' => 'Papeleria',
+        'subcategoria' => 'Escritura',
+        'ubicacion' => 'Oficina',
+    ]);
+
+    $this->get(route('articulos.index'))
+        ->assertOk()
+        ->assertSeeInOrder(['<td>2</td>', '<td>12</td>'], false);
+});
+
 test('web forms save articles and related safeguards', function () {
     /** @var TestCase $this */
     createAreasForTesting();
