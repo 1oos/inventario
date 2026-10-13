@@ -108,7 +108,9 @@
         @endif
 
         <h1>Reporte de Inventario</h1>
-
+            
+        <button onclick="window.print()" style="margin-bottom: 20px; padding: 10px 20px; background-color: #6e0505; color: white; border: none; border-radius: 4px; cursor: pointer;">Imprimir Reporte</button>
+            
         <div class="stats-grid">
             <div class="stat-card">
                 <h3>Cantidad de artículos</h3>

@@ -161,6 +161,18 @@
     <main>
         <div class="page-heading">
             <h1>Categorías</h1>
+
+            <form action="{{ route('categorias.index') }}" method="GET" style="display: flex; gap: 8px; align-items: center;">
+                <input 
+                type="text" 
+                name="search" 
+                placeholder="Buscar categoría..." 
+                value="{{ request('search') }}"
+                style ="padding: 8px 12px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; width: 200px;"
+                >                
+                <button 
+                style="padding: 8px 16px; border-radius: 6px; background-color: #770d0d; color: white; border: none; font-size: 14px; cursor: pointer;" 
+                type="submit">Buscar</button>
             <a class="register-button" href="{{ route('categorias.create') }}">Agregar categoría</a>
         </div>
 

@@ -91,7 +91,8 @@
             <a class="nav-button" href="{{ route('articulos.index') }}">Artículos</a>
             <a class="nav-button" href="{{ route('categorias.index') }}">Categorías</a>
             <a class="nav-button" href="{{ route('resguardos.index') }}">Resguardos</a>
-            <a class="nav-button" href="{{ route('reporteinventario.create') }}">Reporte</a>
+            <a class="nav-button" href="{{ route('reporteinventario.create') }}">Reporte</a><br><br>
+            <a class="text" style="color: #f9fafa; font-weight: 650;">Bienvenido</a>
 
         </nav>
     </div>

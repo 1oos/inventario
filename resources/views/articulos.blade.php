@@ -275,6 +275,19 @@
     <main>
         <div class="page-heading">
             <h1>Artículos</h1>
+            <form action="{{ route('articulos.index') }}" method="GET" style="display: flex; gap: 8px;">
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Buscar por nombre o ubicación"
+                    value="{{ request('search') }}"
+                    style="padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; font-size: 14px;"
+                >
+                <button
+                    type="submit"
+                    style="padding: 8px 16px; border-radius: 6px; background-color: #770d0d; color: white; border: none; font-size: 14px; cursor: pointer;"
+                >Buscar</button>
+            </form>
             <div class="page-actions">
                 <a class="register-button" href="{{ route('articulos.create') }}">Registrar artículo</a>
                 <button
