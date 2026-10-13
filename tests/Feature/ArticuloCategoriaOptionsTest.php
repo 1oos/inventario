@@ -32,6 +32,7 @@ test('article form shows categories and subcategories stored in the database', f
         ->assertSee('js/barcode.js')
         ->assertDontSee('Imprimir etiquetas')
         ->assertSee('data-generate-from-id="true"', false)
+        ->assertSee('value="'.now()->toDateString().'" required', false)
         ->assertSee('<option value="Electronica"', false)
         ->assertSee('<option value="Mobiliario"', false)
         ->assertSee('value="Computadoras"', false)

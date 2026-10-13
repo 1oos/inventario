@@ -366,7 +366,7 @@
 
                 <div class="field">
                     <label for="fecha_alta">Fecha de registro:</label>
-                    <input id="fecha_alta" type="date" name="fecha_alta" value="{{ old('fecha_alta', $articulo->fecha_alta ?? '') }}" required>
+                    <input id="fecha_alta" type="date" name="fecha_alta" value="{{ old('fecha_alta', $articulo->fecha_alta ?? now()->toDateString()) }}" required>
                 </div>
 
                 <div class="field">
