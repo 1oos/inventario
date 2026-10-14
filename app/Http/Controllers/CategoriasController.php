@@ -9,10 +9,22 @@ use Illuminate\View\View;
 
 class CategoriasController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:255'],
+        ]);
+        $search = trim($validated['search'] ?? '');
+
         return view('listacategorias', [
-            'categorias' => Categoria::orderBy('id')
+            'categorias' => Categoria::query()
+                ->when($search !== '', function ($query) use ($search): void {
+                    $query->where(function ($query) use ($search): void {
+                        $query->where('nombre_categoria', 'like', '%'.$search.'%')
+                            ->orWhere('nombre_subcategoria', 'like', '%'.$search.'%');
+                    });
+                })
+                ->orderBy('id')
                 ->get(),
         ]);
     }

@@ -166,13 +166,14 @@
                 <input 
                 type="text" 
                 name="search" 
-                placeholder="Buscar categoría..." 
+                placeholder="Buscar categoría o subcategoría" 
                 value="{{ request('search') }}"
                 style ="padding: 8px 12px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; width: 200px;"
                 >                
                 <button 
                 style="padding: 8px 16px; border-radius: 6px; background-color: #770d0d; color: white; border: none; font-size: 14px; cursor: pointer;" 
                 type="submit">Buscar</button>
+            </form>
             <a class="register-button" href="{{ route('categorias.create') }}">Agregar categoría</a>
         </div>
 
@@ -209,7 +210,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td class="empty-state" colspan="5">No hay categorías registradas.</td>
+                            <td class="empty-state" colspan="4">No hay categorías registradas.</td>
                         </tr>
                     @endforelse
                 </tbody>

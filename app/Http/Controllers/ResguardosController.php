@@ -13,11 +13,36 @@ use Illuminate\View\View;
 
 class ResguardosController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:255'],
+        ]);
+        $search = trim($validated['search'] ?? '');
+
+        $resguardos = Resguardos::query()
+            ->with('articulo')
+            ->when($search !== '', function ($query) use ($search): void {
+                $query->where(function ($query) use ($search): void {
+                    $query->where('observaciones', 'like', '%'.$search.'%')
+                        ->orWhere('fecha_registro', 'like', '%'.$search.'%')
+                        ->orWhereHas('articulo', function ($query) use ($search): void {
+                            $query->where('nombre_articulo', 'like', '%'.$search.'%')
+                                ->orWhere('codigo_barras', 'like', '%'.$search.'%');
+                        });
+
+                    if (ctype_digit($search)) {
+                        $query->orWhere('id', $search)
+                            ->orWhere('id_empleado', $search)
+                            ->orWhere('id_articulo', $search);
+                    }
+                });
+            })
+            ->orderBy('id')
+            ->get();
+
         return view('resguardos', [
-            'resguardos' => Resguardos::orderBy('id')
-                ->get(),
+            'resguardos' => $resguardos,
         ]);
     }
 

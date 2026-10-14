@@ -279,7 +279,7 @@
                 <input
                     type="text"
                     name="search"
-                    placeholder="Buscar por nombre o ubicación"
+                    placeholder="Buscar por codigo de barras o ubicación"
                     value="{{ request('search') }}"
                     style="padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; font-size: 14px;"
                 >
@@ -382,7 +382,7 @@
                                 role="img"
                                 aria-label="Código de barras de {{ $articulo->nombre_articulo }}"
                             ></svg>
-                            <p class="label-name">{{ $articulo->nombre_articulo }}</p>
+                            <p class="label-name">{{ $articulo->codigo_barras }}</p>
                             <p>Número de serie: {{ $articulo->serie }}</p>
                             <p class="barcode-error" hidden></p>
                         </article>

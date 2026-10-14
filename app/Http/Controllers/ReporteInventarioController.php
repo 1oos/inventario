@@ -9,18 +9,38 @@ use Illuminate\View\View;
 
 class ReporteInventarioController extends Controller
 {
-    public function create(): View
+    public function create(Request $request): View
     {
-        $cantidadArticulos = Articulo::count();
-        $articulosEnStock = Articulo::whereDoesntHave('resguardos')->count();
-        $articulos = Articulo::withCount('resguardos')
+        $validated = $request->validate([
+            'categoria' => ['nullable', 'string', 'max:255'],
+        ]);
+        $categoriaSeleccionada = $validated['categoria'] ?? '';
+
+        $consultaArticulos = Articulo::query()
+            ->when($categoriaSeleccionada !== '', function ($query) use ($categoriaSeleccionada): void {
+                $query->where('categoria', $categoriaSeleccionada);
+            });
+
+        $cantidadArticulos = (clone $consultaArticulos)->count();
+        $articulosEnStock = (clone $consultaArticulos)
+            ->whereDoesntHave('resguardos')
+            ->count();
+        $articulos = (clone $consultaArticulos)
+            ->withCount('resguardos')
             ->orderBy('id_articulo')
             ->get();
+        $categorias = Articulo::query()
+            ->select('categoria')
+            ->distinct()
+            ->orderBy('categoria')
+            ->pluck('categoria');
 
         return view('reporteinventario', [
             'cantidadArticulos' => $cantidadArticulos,
             'articulosEnStock' => $articulosEnStock,
             'articulos' => $articulos,
+            'categorias' => $categorias,
+            'categoriaSeleccionada' => $categoriaSeleccionada,
         ]);
     }
 

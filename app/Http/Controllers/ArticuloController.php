@@ -14,10 +14,30 @@ use Illuminate\View\View;
 
 class ArticuloController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:255'],
+        ]);
+        $search = trim($validated['search'] ?? '');
+
+        $articulos = Articulo::query()
+            ->when($search !== '', function ($query) use ($search): void {
+                $query->where(function ($query) use ($search): void {
+                    $query->where('codigo_barras', 'like', '%'.$search.'%')
+                        ->orWhere('ubicacion', 'like', '%'.$search.'%')
+                        ->orWhere('nombre_articulo', 'like', '%'.$search.'%');
+
+                    if (ctype_digit($search)) {
+                        $query->orWhere('id_articulo', $search);
+                    }
+                });
+            })
+            ->orderBy('id_articulo')
+            ->get();
+
         return view('articulos', [
-            'articulos' => Articulo::orderBy('id_articulo')->get(),
+            'articulos' => $articulos,
         ]);
     }
 

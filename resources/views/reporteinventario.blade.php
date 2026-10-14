@@ -2,18 +2,29 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Reporte de inventario</title>
     <style>
+        :root {
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #172b4d;
+            background: #f4f6f8;
+        }
+
         * {
             box-sizing: border-box;
 
         }
         
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
+            min-width: 320px;
+            min-height: 100vh;
             margin: 0;
-            padding: 20px;
+        }
+        main {
+            width: min(1080px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 32px 0 56px;
         }
 
         .container {
@@ -63,6 +74,38 @@
             box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
         }
 
+        .search-form {
+            display: flex;
+            align-items: end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .search-form label {
+            display: grid;
+            gap: 6px;
+            color: #1f2937;
+            font-weight: bold;
+        }
+
+        .search-form select,
+        .search-form button,
+        .print-button {
+            min-height: 40px;
+            padding: 8px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font: inherit;
+        }
+
+        .search-form button,
+        .print-button {
+            border: 0;
+            background-color: #6e0505;
+            color: white;
+            cursor: pointer;
+        }
+
         .inventory-table {
             width: 100%;
             border-collapse: collapse;
@@ -87,6 +130,11 @@
         @media (max-width: 560px) {
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .search-form {
+                align-items: stretch;
+                flex-direction: column;
             }
         }
     </style>
@@ -119,9 +167,19 @@
                 <p class="stat-value">{{ $articulosEnStock ?? 0 }}</p>
             </div>
         </div><br><br>
-        <form>
-        <button onclick="window.print()" style="margin-bottom: 20px; padding: 10px 20px; background-color: #6e0505; color: white; border: none; border-radius: 4px; cursor: pointer;">Imprimir Reporte</button>
-        </form>
+        <form method="GET" action="{{ route('reporteinventario.create') }}" class="search-form">
+            <label for="categoria">Buscar por categoría</label>
+            <select name="categoria" id="categoria">
+                <option value="">Todas las categorías</option>
+                @foreach ($categorias as $categoria)
+                    <option value="{{ $categoria }}" @selected($categoriaSeleccionada === $categoria)>
+                        {{ $categoria }}
+                    </option>
+                @endforeach
+            </select>
+            <button type="submit">Buscar</button>
+        </form><br><br>
+        <button type="button" class="print-button" onclick="window.print()">Imprimir Reporte</button>
 
         <div class="inventory-table-wrapper">
             <table class="inventory-table">
@@ -129,6 +187,7 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Nombre</th>
+                        <th scope="col">Categoría</th>
                         <th scope="col">Ubicación</th>
                         <th scope="col">Existencia</th>
                     </tr>
@@ -138,12 +197,13 @@
                         <tr>
                             <td>{{ $articulo->id_articulo }}</td>
                             <td>{{ $articulo->nombre_articulo }}</td>
+                            <td>{{ $articulo->categoria }}</td>
                             <td>{{ $articulo->ubicacion }}</td>
                             <td>{{ $articulo->resguardos_count === 0 ? 'En stock' : 'Resguardado' }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4">No hay artículos registrados.</td>
+                            <td colspan="5">No hay artículos registrados para esta categoría.</td>
                         </tr>
                     @endforelse
                 </tbody>
