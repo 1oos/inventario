@@ -22,7 +22,7 @@
         }
 
         main {
-            width: min(1080px, calc(100% - 40px));
+            width: min(1300px, calc(100% - 40px));
             margin: 0 auto;
             padding: 32px 0 56px;
         }
@@ -117,7 +117,7 @@
 
         th,
         td {
-            padding: 13px 16px;
+            padding: 15px 18px;
             border-bottom: 1px solid #e5e7eb;
             vertical-align: middle;
         }
@@ -125,7 +125,7 @@
         th {
             background: #151718;
             color: #ffffff;
-            font-size: 13px;
+            font-size: 14px;
             white-space: nowrap;
         }
 
@@ -287,6 +287,14 @@
                     type="submit"
                     style="padding: 8px 16px; border-radius: 6px; background-color: #770d0d; color: white; border: none; font-size: 14px; cursor: pointer;"
                 >Buscar</button>
+                <select name="categoria" id="categoria" onchange="this.form.requestSubmit()">
+                    <option value="">Filtrar por categoría</option>
+                    @foreach ($categorias as $categoria)
+                        <option value="{{ $categoria->nombre_categoria }}" {{ request('categoria') == $categoria->nombre_categoria ? 'selected' : '' }}>
+                            {{ $categoria->nombre_categoria }}
+                        </option>
+                    @endforeach
+                </select>
             </form>
             <div class="page-actions">
                 <a class="register-button" href="{{ route('articulos.create') }}">Registrar artículo</a>
@@ -321,6 +329,7 @@
                         <th scope="col">Codigo de barras</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Marca</th>
+                        <th scope="col">Categoría</th>
                         <th scope="col">Ubicación</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Acciones</th>
@@ -349,6 +358,7 @@
                                 </span>
                             </td>
                             <td>{{ $articulo->marca }}</td>
+                            <td>{{ $articulo->categoria ?: 'Sin categoría' }}</td>
                             <td>{{ $articulo->ubicacion }}</td>
                             <td>{{ $articulo->fecha_alta }}</td>
                             <td>

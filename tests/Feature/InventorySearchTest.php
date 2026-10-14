@@ -52,6 +52,33 @@ test('article search filters by barcode, location, and name', function () {
         ->assertDontSee('Laptop Oficina');
 });
 
+test('article list shows and filters by category names', function () {
+    /** @var TestCase $this */
+    DB::table('categorias')->insert([
+        [
+            'nombre_categoria' => 'Computo',
+            'nombre_subcategoria' => 'Laptops',
+            'articulo' => 'Laptop',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'nombre_categoria' => 'Mobiliario',
+            'nombre_subcategoria' => 'Sillas',
+            'articulo' => 'Silla',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+    ]);
+
+    $this->get(route('articulos.index', ['categoria' => 'Computo']))
+        ->assertOk()
+        ->assertSee('onchange="this.form.requestSubmit()"', false)
+        ->assertSee('<option value="Computo" selected>', false)
+        ->assertSee('Laptop Oficina')
+        ->assertDontSee('Silla Almacén');
+});
+
 test('category search filters by category, subcategory, and article', function () {
     /** @var TestCase $this */
     DB::table('categorias')->insert([

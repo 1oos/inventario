@@ -287,7 +287,7 @@
                             <img src="{{ asset('images/categorias.png') }}" alt="Vista de categorías del inventario">
                             <div class="carousel-caption">
                                 <h3>Categorías</h3>
-                                <p>Organiza las categorías, subcategorías y artículos del inventario.</p>
+                                <p>Organiza las categorías y subcategorías del inventario.</p>
                             </div>
                         </article>
                         <article class="carousel-slide" role="group" aria-roledescription="diapositiva" aria-label="2 de 4" aria-hidden="true">

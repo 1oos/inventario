@@ -137,6 +137,46 @@
                 flex-direction: column;
             }
         }
+
+        @media print {
+            .search-form,
+            .print-button,
+            .top-nav {
+                display: none !important;
+            }
+
+            :root,
+            body {
+                background: #ffffff;
+            }
+
+            .site-header {
+                background: #ffffff !important;
+            }
+
+            .topbar {
+                justify-content: flex-start;
+                width: 100%;
+                padding: 8px 0;
+            }
+
+            .brand-logo {
+                transform: none;
+            }
+
+            .brand span {
+                color: #172b4d !important;
+            }
+
+            .container {
+                max-width: none;
+            }
+
+            .inventory-table-wrapper {
+                overflow: visible;
+                box-shadow: none;
+            }
+        }
     </style>
 </head>
 <body>

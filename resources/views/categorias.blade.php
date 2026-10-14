@@ -16,11 +16,10 @@
             }
 
             .page-wrap {
-                min-height: 100vh;
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 justify-content: center;
-                padding: 30px 20px;
+                padding: 20px 20px 40px;
             }
 
             .form-card {

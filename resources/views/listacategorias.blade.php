@@ -22,7 +22,7 @@
         }
 
         main {
-            width: min(1080px, calc(100% - 40px));
+            width: min(1000px, calc(100% - 40px));
             margin: 0 auto;
             padding: 32px 0 56px;
         }

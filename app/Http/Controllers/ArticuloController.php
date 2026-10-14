@@ -18,8 +18,10 @@ class ArticuloController extends Controller
     {
         $validated = $request->validate([
             'search' => ['nullable', 'string', 'max:255'],
+            'categoria' => ['nullable', 'string', 'max:255'],
         ]);
         $search = trim($validated['search'] ?? '');
+        $categoria = $validated['categoria'] ?? '';
 
         $articulos = Articulo::query()
             ->when($search !== '', function ($query) use ($search): void {
@@ -33,11 +35,19 @@ class ArticuloController extends Controller
                     }
                 });
             })
+            ->when($categoria !== '', function ($query) use ($categoria): void {
+                $query->where('categoria', $categoria);
+            })
             ->orderBy('id_articulo')
             ->get();
 
         return view('articulos', [
             'articulos' => $articulos,
+            'categorias' => Categoria::query()
+                ->select('nombre_categoria')
+                ->distinct()
+                ->orderBy('nombre_categoria')
+                ->get(),
         ]);
     }
 
