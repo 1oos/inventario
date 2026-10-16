@@ -48,6 +48,7 @@ class ArticuloController extends Controller
 
         return view('articulos', [
             'articulos' => $articulos,
+            'articulosImprimibles' => $articulos->where('estado', 'En buen estado'),
             'categorias' => Categoria::query()
                 ->select('nombre_categoria')
                 ->distinct()

@@ -95,16 +95,30 @@ test('article list filters by state and keeps combined filters', function () {
         'ubicacion' => 'Oficina',
     ]);
 
-    $this->get(route('articulos.index', [
+    $this->get(route('articulos.index'))
+        ->assertOk()
+        ->assertSee('data-barcode="ART-101"', false)
+        ->assertSee('data-barcode="ART-202"', false)
+        ->assertDontSee('data-barcode="ART-303"', false);
+
+    $response = $this->get(route('articulos.index', [
         'estado' => 'En mal estado',
         'categoria' => 'Computo',
         'search' => 'Monitor',
-    ]))
+    ]));
+
+    $response
         ->assertOk()
         ->assertSee('<option value="En mal estado" selected>', false)
         ->assertSee('Monitor dañado')
         ->assertDontSee('Laptop Oficina')
-        ->assertDontSee('Silla Almacén');
+        ->assertDontSee('Silla Almacén')
+        ->assertDontSee('id="article-labels"', false);
+
+    $this->assertMatchesRegularExpression(
+        '/<button[^>]*id="print-labels-button"[^>]*disabled[^>]*>/',
+        $response->getContent()
+    );
 });
 
 test('category search filters by category, subcategory, and article', function () {

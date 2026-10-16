@@ -307,7 +307,7 @@
                     class="register-button print-button"
                     id="print-labels-button"
                     type="button"
-                    @disabled($articulos->isEmpty())
+                    @disabled($articulosImprimibles->isEmpty())
                 >Imprimir etiquetas</button>
             </div>
         </div>
@@ -320,7 +320,7 @@
             <p class="notice notice--error">{{ session('error') }}</p>
         @endif
 
-        @if ($articulos->isNotEmpty())
+        @if ($articulosImprimibles->isNotEmpty())
             <p class="print-message" id="print-message" role="status" hidden></p>
         @endif
 
@@ -386,10 +386,10 @@
             </table>
         </div>
 
-        @if ($articulos->isNotEmpty())
+        @if ($articulosImprimibles->isNotEmpty())
             <section class="print-labels" id="article-labels" aria-label="Etiquetas de los artículos">
                 <div class="print-labels-grid">
-                    @foreach ($articulos as $articulo)
+                    @foreach ($articulosImprimibles as $articulo)
                         <article class="print-label">
                             <svg
                                 class="article-barcode"
@@ -406,7 +406,7 @@
             </section>
         @endif
     </main>
-    @if ($articulos->isNotEmpty())
+    @if ($articulosImprimibles->isNotEmpty())
         <script src="{{ asset('js/barcode.js') }}"></script>
         <script>
             const etiquetas = Array.from(document.querySelectorAll('.article-barcode'));
