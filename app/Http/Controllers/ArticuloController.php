@@ -19,9 +19,11 @@ class ArticuloController extends Controller
         $validated = $request->validate([
             'search' => ['nullable', 'string', 'max:255'],
             'categoria' => ['nullable', 'string', 'max:255'],
+            'estado' => ['nullable', 'in:En buen estado,En mal estado'],
         ]);
         $search = trim($validated['search'] ?? '');
         $categoria = $validated['categoria'] ?? '';
+        $estado = $validated['estado'] ?? '';
 
         $articulos = Articulo::query()
             ->when($search !== '', function ($query) use ($search): void {
@@ -37,6 +39,9 @@ class ArticuloController extends Controller
             })
             ->when($categoria !== '', function ($query) use ($categoria): void {
                 $query->where('categoria', $categoria);
+            })
+            ->when($estado !== '', function ($query) use ($estado): void {
+                $query->where('estado', $estado);
             })
             ->orderBy('id_articulo')
             ->get();

@@ -279,7 +279,7 @@
                 <input
                     type="text"
                     name="search"
-                    placeholder="Buscar por codigo de barras o ubicación"
+                    placeholder="Buscar por nombre, código de barras o ubicación"
                     value="{{ request('search') }}"
                     style="padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; font-size: 14px;"
                 >
@@ -295,6 +295,11 @@
                         </option>
                     @endforeach
                 </select>
+                <select name="estado" id="estado" onchange="this.form.requestSubmit()">
+                    <option value="">Filtrar por estado</option>
+                    <option value="En buen estado" {{ request('estado') == 'En buen estado' ? 'selected' : '' }}>En buen estado</option>
+                    <option value="En mal estado" {{ request('estado') == 'En mal estado' ? 'selected' : '' }}>En mal estado</option>
+                </select>  
             </form>
             <div class="page-actions">
                 <a class="register-button" href="{{ route('articulos.create') }}">Registrar artículo</a>

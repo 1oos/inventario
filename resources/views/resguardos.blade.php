@@ -163,7 +163,7 @@
             <h1>Resguardos</h1>
 
             <form action="{{ route('resguardos.index') }}" method="GET" style="display: flex; gap: 8px;">
-                <input type="text" name="search" placeholder="Buscar por ID, empleado o artículo" value="{{ request('search') }}"
+                <input type="text" name="search" placeholder="Buscar por ID de empleado o artículo" value="{{ request('search') }}"
                 style="display: inline-block; padding: 8px 12px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; width: 250px;"
                 >
                 <button type="submit" style="padding: 8px 16px; border-radius: 6px; background-color: #770d0d; color: white; border: none; font-size: 14px; cursor: pointer;">Buscar</button>

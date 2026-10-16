@@ -79,6 +79,34 @@ test('article list shows and filters by category names', function () {
         ->assertDontSee('Silla Almacén');
 });
 
+test('article list filters by state and keeps combined filters', function () {
+    /** @var TestCase $this */
+    Articulo::create([
+        'id_articulo' => 303,
+        'nombre_articulo' => 'Monitor dañado',
+        'color' => 'Negro',
+        'estado' => 'En mal estado',
+        'marca' => 'Marca C',
+        'modelo' => 'Modelo C',
+        'fecha_alta' => '2026-10-03',
+        'serie' => 'SERIE-C',
+        'categoria' => 'Computo',
+        'subcategoria' => 'Monitores',
+        'ubicacion' => 'Oficina',
+    ]);
+
+    $this->get(route('articulos.index', [
+        'estado' => 'En mal estado',
+        'categoria' => 'Computo',
+        'search' => 'Monitor',
+    ]))
+        ->assertOk()
+        ->assertSee('<option value="En mal estado" selected>', false)
+        ->assertSee('Monitor dañado')
+        ->assertDontSee('Laptop Oficina')
+        ->assertDontSee('Silla Almacén');
+});
+
 test('category search filters by category, subcategory, and article', function () {
     /** @var TestCase $this */
     DB::table('categorias')->insert([
