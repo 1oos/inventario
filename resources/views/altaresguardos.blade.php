@@ -190,8 +190,8 @@
             @endif
 
             @if ($articulos->isEmpty())
-                <p>Primero debes registrar un artículo para poder asignarlo a un resguardo.</p>
-                <p><a href="{{ route('articulos.create') }}">Registrar artículo</a></p>
+                <p>No hay artículos en buen estado para asignar a un resguardo.</p>
+                <p><a href="{{ route('articulos.index') }}">Consultar artículos</a></p>
             @else
                 <form
                     action="{{ isset($resguardo) ? route('resguardos.update', $resguardo) : route('resguardos.store') }}"

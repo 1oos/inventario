@@ -9,6 +9,7 @@ use App\Models\Resguardos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class ResguardosController extends Controller
@@ -49,14 +50,18 @@ class ResguardosController extends Controller
     public function create(): View
     {
         return view('altaresguardos', [
-            'articulos' => Articulo::orderBy('nombre_articulo')->get(),
+            'articulos' => Articulo::where('estado', 'En buen estado')
+                ->orderBy('nombre_articulo')
+                ->get(),
         ]);
     }
 
     public function edit(Resguardos $resguardo): View
     {
         return view('altaresguardos', [
-            'articulos' => Articulo::orderBy('nombre_articulo')->get(),
+            'articulos' => Articulo::where('estado', 'En buen estado')
+                ->orderBy('nombre_articulo')
+                ->get(),
             'resguardo' => $resguardo,
         ]);
     }
@@ -88,9 +93,15 @@ class ResguardosController extends Controller
     {
         $validated = $request->validate([
             'id_empleado' => ['required', 'integer', 'min:1', 'exists:acceso,id'],
-            'id_articulo' => ['required', 'integer', 'exists:articulos,id_articulo'],
+            'id_articulo' => [
+                'required',
+                'integer',
+                Rule::exists('articulos', 'id_articulo')->where('estado', 'En buen estado'),
+            ],
             'fecha_registro' => ['required', 'date'],
             'observaciones' => ['nullable', 'string'],
+        ], [
+            'id_articulo.exists' => 'El artículo debe estar en buen estado para asignarlo a un resguardo.',
         ]);
 
         Resguardos::create($validated);
@@ -102,9 +113,15 @@ class ResguardosController extends Controller
     {
         $validated = $request->validate([
             'id_empleado' => ['required', 'integer', 'min:1', 'exists:acceso,id'],
-            'id_articulo' => ['required', 'integer', 'exists:articulos,id_articulo'],
+            'id_articulo' => [
+                'required',
+                'integer',
+                Rule::exists('articulos', 'id_articulo')->where('estado', 'En buen estado'),
+            ],
             'fecha_registro' => ['required', 'date'],
             'observaciones' => ['nullable', 'string'],
+        ], [
+            'id_articulo.exists' => 'El artículo debe estar en buen estado para asignarlo a un resguardo.',
         ]);
 
         $resguardo->update($validated);
