@@ -172,3 +172,31 @@ test('resguardo search filters by employee id and article details', function () 
         ->assertSee('Asignado en oficina')
         ->assertDontSee('Para almacén');
 });
+
+test('resguardo search matches numeric employee ids exactly', function () {
+    /** @var TestCase $this */
+    Resguardos::create([
+        'id_empleado' => 10,
+        'id_articulo' => 202,
+        'fecha_registro' => '2026-10-04',
+        'observaciones' => 'Empleado diez',
+    ]);
+
+    Resguardos::create([
+        'id_empleado' => 1,
+        'id_articulo' => 101,
+        'fecha_registro' => '2026-10-03',
+        'observaciones' => 'Empleado uno',
+    ]);
+
+    $this->get(route('resguardos.index', ['search' => '1']))
+        ->assertOk()
+        ->assertSee('Empleado uno')
+        ->assertDontSee('Empleado diez')
+        ->assertDontSee('Para almacén');
+
+    $this->get(route('resguardos.index', ['search' => '10']))
+        ->assertOk()
+        ->assertSee('Empleado diez')
+        ->assertDontSee('Empleado uno');
+});

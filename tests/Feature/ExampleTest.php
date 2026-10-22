@@ -1,6 +1,8 @@
 <?php
+uses(Tests\TestCase::class);
 
 test('the home page links to every inventory view', function () {
+    /** @var Tests\TestCase $this */
     $response = $this->get('/');
 
     $response->assertOk()
