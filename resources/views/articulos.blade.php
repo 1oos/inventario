@@ -279,7 +279,7 @@
                 <input
                     type="text"
                     name="search"
-                    placeholder="Buscar por nombre, código de barras o ubicación"
+                    placeholder="Buscar por nombre, id o código de barras"
                     value="{{ request('search') }}"
                     style="padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; font-size: 14px;"
                 >

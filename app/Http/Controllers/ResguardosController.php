@@ -34,8 +34,7 @@ class ResguardosController extends Controller
 
                     if (ctype_digit($search)) {
                         $query->orWhere('id', $search)
-                            ->orWhere('id_empleado', $search)
-                            ->orWhere('id_articulo', $search);
+                            ->orWhere('id_empleado', $search);
                     }
                 });
             })
