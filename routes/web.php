@@ -4,9 +4,23 @@ use App\Http\Controllers\ArticuloController;
 use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\ReporteInventarioController;
 use App\Http\Controllers\ResguardosController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'inicio')->name('inicio');
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/login', function (Request $request) {
+    $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
+
+    return redirect()->route('inicio')->with('status', 'Sesión iniciada correctamente.');
+})->name('login.post');
 
 Route::get('/categorias', [CategoriasController::class, 'index'])->name('categorias.index');
 Route::get('/categorias/crear', [CategoriasController::class, 'create'])->name('categorias.create');
