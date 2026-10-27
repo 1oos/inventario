@@ -313,7 +313,7 @@
                 </div>
 
                 <h2>Iniciar sesión</h2>
-                <p class="subtitle">Ingresa tus credenciales para acceder al panel de control.</p>
+                <p class="subtitle">Ingresa tus datos para acceder al panel de control.</p>
 
                 <form method="POST" action="{{ route('login.post') }}">
                     @csrf
