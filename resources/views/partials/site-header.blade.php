@@ -32,9 +32,43 @@
 
     .top-nav {
         display: flex;
+        align-items: center;
         flex-wrap: wrap;
         justify-content: flex-end;
         gap: 8px;
+    }
+
+    .user-info {
+        color: #f9fafa;
+        font-size: 13px;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .account-actions {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        gap: 20px;
+    }
+
+    .logout-button {
+        min-height: 36px;
+        padding: 0 12px;
+        border: 1px solid rgba(255, 255, 255, .45);
+        border-radius: 9px;
+        background: transparent;
+        color: #f9fafa;
+        cursor: pointer;
+        font: inherit;
+    }
+
+    .logout-form {
+        margin-right: 14px;
+    }
+
+    .logout-button:hover {
+        background: rgba(255, 255, 255, .12);
     }
 
     .nav-button {
@@ -81,19 +115,27 @@
 
 <header class="site-header">
     <div class="topbar">
-        <a class="brand" href="{{ route('inicio') }}" aria-label="Control de inventario" style="text-decoration: none;">
+        <div class="brand" aria-label="Control de inventario" style="text-decoration: none; cursor: default;">
             <img class="brand-logo" src="{{ asset('images/logo-coronango.png') }}" alt="Logo de Control de inventario">
-            <span style="font-size: 20px; font-weight: bold; color: #f9fafa; margin-left: 8px;">Control de Inventario</span>
-        </a>
+            <span style="font-size: 20px; font-weight: bold; color: #f9fafa; margin-left: 4px;">Control de Inventario</span>
+        </div>
 
         <nav class="top-nav" aria-label="Vistas del inventario">
             <a class="nav-button" href="{{ route('inicio') }}">Inicio</a>
             <a class="nav-button" href="{{ route('articulos.index') }}">Artículos</a>
             <a class="nav-button" href="{{ route('categorias.index') }}">Categorías</a>
             <a class="nav-button" href="{{ route('resguardos.index') }}">Resguardos</a>
-            <a class="nav-button" href="{{ route('reporteinventario.create') }}">Reporte</a><br><br>
-            <a class="text" style="color: #f9fafa; font-weight: 650;">Bienvenido</a>
-
+            <a class="nav-button" href="{{ route('reporteinventario.create') }}">Reporte</a>
+            @if (auth()->user()->role === 'superadmin')
+                <a class="nav-button" href="{{ route('users.index') }}">Usuarios</a>
+            @endif
+            <div class="account-actions">
+                <span class="user-info">{{ auth()->user()->name }} · {{ ['superadmin' => 'Superadmin', 'admin' => 'Admin', 'viewer' => 'Solo lectura'][auth()->user()->role] ?? 'Usuario' }}</span>
+                <form class="logout-form" action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button class="logout-button" type="submit">Cerrar sesión</button>
+                </form>
+            </div>
         </nav>
     </div>
 </header>

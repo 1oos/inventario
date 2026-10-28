@@ -2,9 +2,28 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 
 beforeEach(function () {
+    Schema::create('users', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->string('email')->unique();
+        $table->string('password');
+        $table->string('role')->default('viewer');
+        $table->rememberToken();
+        $table->timestamps();
+    });
+
+    $this->actingAs(User::create([
+        'name' => 'Admin',
+        'email' => 'admin@example.com',
+        'password' => Hash::make('password'),
+        'role' => 'admin',
+    ]));
+
     Schema::create('articulos', function (Blueprint $table) {
         $table->unsignedBigInteger('id_articulo')->primary();
         $table->string('nombre_articulo');

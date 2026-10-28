@@ -3,10 +3,15 @@
 use App\Models\Articulo;
 use App\Models\Categoria;
 use App\Models\Resguardos;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create(['role' => 'admin']));
+});
 
 test('category form saves categories', function () {
     /** @var TestCase $this */

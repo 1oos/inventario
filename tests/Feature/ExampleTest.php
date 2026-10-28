@@ -1,5 +1,13 @@
 <?php
-uses(Tests\TestCase::class);
+
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create(['role' => 'admin']));
+});
 
 test('the home page links to every inventory view', function () {
     /** @var Tests\TestCase $this */

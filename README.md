@@ -21,6 +21,18 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Acceso y perfiles
+
+Las páginas requieren iniciar sesión. El perfil `admin` puede consultar y modificar el inventario; `viewer` solo puede consultarlo; `superadmin` tiene esos permisos y administra las cuentas desde **Usuarios**. No hay registro público.
+
+Después de migrar la base de datos, asigna el primer superadmin a una cuenta existente. Si el correo aún no tiene cuenta, el comando la creará y solicitará nombre y contraseña de forma interactiva:
+
+```sh
+php artisan inventario:promote-superadmin correo@ejemplo.com
+```
+
+El superadmin puede crear cuentas y asignarles los perfiles `superadmin`, `admin` o `viewer`.
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.

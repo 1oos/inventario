@@ -2,6 +2,7 @@
 
 use App\Models\Articulo;
 use App\Models\Resguardos;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -10,6 +11,8 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     /** @var TestCase $this */
+    $this->actingAs(User::factory()->create(['role' => 'admin']));
+
     Articulo::create([
         'id_articulo' => 101,
         'nombre_articulo' => 'Laptop Oficina',

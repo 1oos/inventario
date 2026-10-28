@@ -302,7 +302,9 @@
                 </select>  
             </form>
             <div class="page-actions">
-                <a class="register-button" href="{{ route('articulos.create') }}">Registrar artículo</a>
+                @if (auth()->user()->canManageInventory())
+                    <a class="register-button" href="{{ route('articulos.create') }}">Registrar artículo</a>
+                @endif
                 <button
                     class="register-button print-button"
                     id="print-labels-button"
@@ -337,7 +339,9 @@
                         <th scope="col">Categoría</th>
                         <th scope="col">Ubicación</th>
                         <th scope="col">Fecha</th>
-                        <th scope="col">Acciones</th>
+                        @if (auth()->user()->canManageInventory())
+                            <th scope="col">Acciones</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -366,20 +370,22 @@
                             <td>{{ $articulo->categoria ?: 'Sin categoría' }}</td>
                             <td>{{ $articulo->ubicacion }}</td>
                             <td>{{ $articulo->fecha_alta }}</td>
-                            <td>
-                                <div class="actions">
-                                    <a class="action-button action-button--edit" href="{{ route('articulos.edit', $articulo) }}">Editar</a>
-                                    <form action="{{ route('articulos.destroy', $articulo) }}" method="POST" onsubmit="return confirm('¿Deseas eliminar este artículo?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="action-button action-button--delete" type="submit">Eliminar</button>
-                                    </form>
-                                </div>
-                            </td>
+                            @if (auth()->user()->canManageInventory())
+                                <td>
+                                    <div class="actions">
+                                        <a class="action-button action-button--edit" href="{{ route('articulos.edit', $articulo) }}">Editar</a>
+                                        <form action="{{ route('articulos.destroy', $articulo) }}" method="POST" onsubmit="return confirm('¿Deseas eliminar este artículo?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="action-button action-button--delete" type="submit">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            @endif
                         </tr>
                     @empty
                         <tr>
-                            <td class="empty-state" colspan="9">No hay artículos registrados.</td>
+                            <td class="empty-state" colspan="{{ auth()->user()->canManageInventory() ? 10 : 9 }}">No hay artículos registrados.</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -174,7 +174,9 @@
                 style="padding: 8px 16px; border-radius: 6px; background-color: #770d0d; color: white; border: none; font-size: 14px; cursor: pointer;" 
                 type="submit">Buscar</button>
             </form>
-            <a class="register-button" href="{{ route('categorias.create') }}">Agregar categoría</a>
+            @if (auth()->user()->canManageInventory())
+                <a class="register-button" href="{{ route('categorias.create') }}">Agregar categoría</a>
+            @endif
         </div>
 
         @if (session('mensaje'))
@@ -188,7 +190,9 @@
                         <th scope="col">ID</th>
                         <th scope="col">Categoría</th>
                         <th scope="col">Subcategoría</th>
-                        <th scope="col">Acciones</th>
+                        @if (auth()->user()->canManageInventory())
+                            <th scope="col">Acciones</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -197,20 +201,22 @@
                             <td>{{ $categoria->id }}</td>
                             <td>{{ $categoria->nombre_categoria }}</td>
                             <td>{{ $categoria->nombre_subcategoria }}</td>
-                            <td>
-                                <div class="actions">
-                                    <a class="action-button action-button--edit" href="{{ route('categorias.edit', $categoria) }}">Editar</a>
-                                    <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" onsubmit="return confirm('¿Deseas eliminar esta categoría?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="action-button action-button--delete" type="submit">Eliminar</button>
-                                    </form>
-                                </div>
-                            </td>
+                            @if (auth()->user()->canManageInventory())
+                                <td>
+                                    <div class="actions">
+                                        <a class="action-button action-button--edit" href="{{ route('categorias.edit', $categoria) }}">Editar</a>
+                                        <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" onsubmit="return confirm('¿Deseas eliminar esta categoría?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="action-button action-button--delete" type="submit">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            @endif
                         </tr>
                     @empty
                         <tr>
-                            <td class="empty-state" colspan="4">No hay categorías registradas.</td>
+                            <td class="empty-state" colspan="{{ auth()->user()->canManageInventory() ? 4 : 3 }}">No hay categorías registradas.</td>
                         </tr>
                     @endforelse
                 </tbody>

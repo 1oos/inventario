@@ -2,9 +2,14 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Tests\TestCase;
 
 uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create(['role' => 'admin']));
+});
 
 test('article form shows categories and subcategories stored in the database', function () {
     createAreasForTesting();

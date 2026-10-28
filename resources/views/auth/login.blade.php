@@ -48,12 +48,12 @@
         .brand-panel {
             position: relative;
             padding: 50px 48px;
-            background: linear-gradient(135deg, rgba(156, 42, 42, 0.96), rgba(48, 133, 156, 0.88));
+            background: linear-gradient(135deg, rgba(116, 8, 8, 0.96), rgba(229, 233, 235, 0.88));
             color: #fff;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 620px;
+            min-height: 600px;
         }
 
         .brand-panel::before {
@@ -144,7 +144,7 @@
             place-items: center;
             margin-bottom: 18px;
             border-radius: 18px;
-            background: linear-gradient(135deg, rgba(156, 42, 42, 0.1), rgba(48, 133, 156, 0.08));
+            background: linear-gradient(135deg, rgba(156, 42, 42, 0.1), rgba(249, 250, 250, 0.98));
             border: 1px solid rgba(156, 42, 42, 0.15);
         }
 
@@ -164,6 +164,16 @@
             margin: 0 0 28px;
             color: var(--muted);
             line-height: 1.6;
+        }
+
+        .login-error {
+            margin: -12px 0 18px;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 11px 13px;
+            background: #fef2f2;
+            color: #991b1b;
+            font-size: 0.9rem;
         }
 
         form {
@@ -283,23 +293,16 @@
                 <div class="brand-tag">Sistema de inventario</div>
                 <h1>Controla tus activos con confianza</h1>
                 <p>
-                    Gestiona artículos, categorías, resguardos y reportes desde una sola plataforma,
-                    con acceso seguro y una estructura clara para tu equipo.
+                    Gestiona artículos, categorías, resguardos y reportes desde una sola plataforma.
                 </p>
             </div>
 
             <div class="brand-metrics">
                 <div class="metric">
-                    <strong>1.2K</strong>
                     <span>Artículos</span>
                 </div>
                 <div class="metric">
-                    <strong>48</strong>
                     <span>Áreas</span>
-                </div>
-                <div class="metric">
-                    <strong>24/7</strong>
-                    <span>Acceso</span>
                 </div>
             </div>
         </aside>
@@ -313,14 +316,18 @@
                 </div>
 
                 <h2>Iniciar sesión</h2>
-                <p class="subtitle">Ingresa tus datos para acceder al panel de control.</p>
+                <p class="subtitle">Ingresa tus datos para acceder al panel de control. Los permisos dependen del perfil asignado a tu cuenta.</p>
+
+                @if ($errors->any())
+                    <div class="login-error" role="alert">{{ $errors->first() }}</div>
+                @endif
 
                 <form method="POST" action="{{ route('login.post') }}">
                     @csrf
 
                     <div class="field">
                         <label for="email">Correo electrónico</label>
-                        <input id="email" type="email" name="email" placeholder="usuario@ejemplo.com" required autocomplete="email">
+                        <input id="email" type="email" name="email" placeholder="usuario@ejemplo.com" value="{{ old('email') }}" required autocomplete="email">
                     </div>
 
                     <div class="field">
@@ -334,15 +341,11 @@
                             <span>Recordarme</span>
                         </label>
 
-                        <a class="link" href="#">¿Olvidaste tu contraseña?</a>
+                        <span class="link">Perfiles: Superadmin, Admin y Solo lectura</span>
                     </div>
 
                     <button type="submit" class="btn-submit">Entrar</button>
                 </form>
-
-                <div class="register-link">
-                    ¿No tienes cuenta? <a href="#" class="link">Solicita acceso</a>
-                </div>
             </div>
         </main>
     </div>

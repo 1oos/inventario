@@ -1,9 +1,14 @@
 <?php
 
 use App\Models\Articulo;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $this->actingAs(User::factory()->create(['role' => 'admin']));
+});
 
 test('employee lookup returns the employee access fields with area name', function () {
     createAreasForTesting();
